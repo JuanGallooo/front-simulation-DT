@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import canvas from '../components/Canvas/Canvas/vue';
+import canvas from '../components/Canvas/Canvas';
 
 Vue.use(VueRouter)
 

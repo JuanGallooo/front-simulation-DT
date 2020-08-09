@@ -83,9 +83,8 @@ export  class Api{
     }
 }
 
-Api.prototype.list = list;
-Api.prototype.create = create;
+Api.prototype.getAll = getAll;
 Api.prototype.get = get;
-Api.prototype.update = update;
+Api.prototype.put= put;
 Api.prototype.remove = remove;
 Api.prototype.request = request;

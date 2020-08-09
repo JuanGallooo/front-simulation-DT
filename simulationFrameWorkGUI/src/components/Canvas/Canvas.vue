@@ -7,7 +7,12 @@
 </template>
 <script>
 export default {
-    
+    name: "Canvas",
+    data(){
+        return {
+
+        };
+    }
 }
 </script>
 
