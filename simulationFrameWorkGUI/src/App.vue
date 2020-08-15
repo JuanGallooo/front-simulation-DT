@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    <h1>Hola!</h1>
-  </div>
+  <v-app class="vue">
+    <router-view></router-view>
+  </v-app>
 </template>
 
 <script>
