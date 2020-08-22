@@ -34,11 +34,14 @@
                     </v-col>
                   </v-row>
                   <v-row align="center" justify="center">
-                    <v-col cols="6">
+                    <v-col cols="4">
                       <label>Upload Datagrams</label>
                     </v-col>
-                    <v-col cols="6">
-                      <v-file-input multiple label="File input"></v-file-input>
+                    <v-col cols="4">
+                      <UploadFiles></UploadFiles>
+                    </v-col>
+                    <v-col cols="4">
+                      
                     </v-col>
                   </v-row>
                   <v-row align="center">
@@ -50,13 +53,11 @@
                     </v-col>
                   </v-row>
                 </v-form>
-                <label>Select Plan Version</label>
                 <v-row>
                   <v-col cols="12" align="center" justify="center">
                     <v-select :items="items" label="PlanVersion ID"></v-select>
                   </v-col>
                 </v-row>
-                <label>Select Dates</label>
                 <v-row>
                   <v-col cols="6" align="center" justify="center">
                     <v-menu
@@ -138,24 +139,28 @@
 </template>
 
 <script>
+import UploadFiles from "../UploadFile/UploadFile";
 export default {
-  data() {
-    return {
-      project: {
-        name: "",
-        fuente: 0,
-      },
-      items: ["Nada", "Nada2"],
-      date: new Date().toISOString().substr(0, 7),
-      dateTwo:new Date().toISOString().substr(0, 7),
-      menu: false,
-      menuTwo: false,
-      picker: null,
-      pickerTwo:null
-    };
+  data:()=> ({
+    project: {
+      name: "",
+      fuente: 0,
+    },
+    items: ["Nada", "Nada2"],
+    date: new Date().toISOString().substr(0, 7),
+    dateTwo:new Date().toISOString().substr(0, 7),
+    menu: false,
+    menuTwo: false,
+    picker: null,
+    pickerTwo:null
+  }),
+  components:{
+    UploadFiles
   },
-  methods(){
-    
+  methods:{
+    createProject: function(event){
+
+    }
   }
 };
 </script>
