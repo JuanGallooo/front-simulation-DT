@@ -33,36 +33,41 @@
                       <label for="oracle">Oracle</label>
                     </v-col>
                   </v-row>
-                  <v-row align="center" justify="center">
-                    <v-col cols="4">
+                  <v-row justify="center" v-if="project.fuente=='CSV'">
+                    <v-col cols="12">
                       <label>Upload Datagrams</label>
                     </v-col>
-                    <v-col cols="4">
-                      <UploadFiles></UploadFiles>
-                    </v-col>
-                    <v-col cols="4">
-                      
-                    </v-col>
-                  </v-row>
-                  <v-row align="center">
                     <v-col cols="6">
-                      <label>Separator</label>
+                      <v-btn color="primary" @click="showUpload = true; showSelect= false;">By file</v-btn>
+                      <v-row align="center" v-if="showUpload">
+                        <v-col cols="6">
+                          <label>Separator</label>
+                        </v-col>
+                        <v-col cols="6">
+                          <v-text-field></v-text-field>
+                        </v-col>
+                      </v-row>
+                      <UploadFiles v-if="showUpload"></UploadFiles>
                     </v-col>
                     <v-col cols="6">
-                      <v-text-field></v-text-field>
+                      <v-btn
+                        color="primary"
+                        @click="showUpload = false; showSelect= true;"
+                      >On Server</v-btn>
+                      <v-select v-if="showSelect" :items="filesOnServer" label="Select Archive"></v-select>
                     </v-col>
                   </v-row>
                 </v-form>
                 <v-row>
                   <v-col cols="12" align="center" justify="center">
-                    <v-select :items="items" label="PlanVersion ID"></v-select>
+                    <v-select :items="planversionID" label="PlanVersion ID"></v-select>
                   </v-col>
                 </v-row>
                 <v-row>
                   <v-col cols="6" align="center" justify="center">
                     <v-menu
                       ref="menu"
-                      v-model="menu"
+                      v-model="initialMenu"
                       :close-on-content-click="false"
                       :return-value.sync="date"
                       transition="scale-transition"
@@ -71,42 +76,43 @@
                     >
                       <template v-slot:activator="{ on, attrs }">
                         <v-text-field
-                          v-model="date"
+                          v-model="initialDate"
                           label="Initial Date"
                           readonly
                           v-bind="attrs"
                           v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-date-picker v-model="date" no-title scrollable>
+                      <v-date-picker v-model="initialDate" no-title scrollable>
                         <v-spacer></v-spacer>
-                        <v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-                        <v-btn text color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                        <v-btn text color="primary" @click="initialMenu = false">Cancel</v-btn>
+                        <v-btn text color="primary" @click="$refs.initialMenu.save(initialDate)">OK</v-btn>
                       </v-date-picker>
                     </v-menu>
                   </v-col>
                   <v-col cols="6" align="center" justify="center">
                     <v-menu
                       ref="menu"
-                      v-model="menuTwo"
+                      v-model="finalMenu"
                       :close-on-content-click="false"
-                      :return-value.sync="date"
+                      :return-value.sync="initialDate"
                       transition="scale-transition"
                       offset-y
-                      min-width="290px">
+                      min-width="290px"
+                    >
                       <template v-slot:activator="{ on, attrs }">
                         <v-text-field
-                          v-model="dateTwo"
+                          v-model="finalDate"
                           label="Final Date"
                           readonly
                           v-bind="attrs"
                           v-on="on"
                         ></v-text-field>
                       </template>
-                      <v-date-picker v-model="dateTwo" no-title scrollable>
+                      <v-date-picker v-model="finalDate" no-title scrollable>
                         <v-spacer></v-spacer>
-                        <v-btn text color="primary" @click="menuTwo = false">Cancel</v-btn>
-                        <v-btn text color="primary" @click="$refs.menuTwo.save(dateTwo)">OK</v-btn>
+                        <v-btn text color="primary" @click="finalMenu = false">Cancel</v-btn>
+                        <v-btn text color="primary" @click="$refs.finalMenu.save(finalDate)">OK</v-btn>
                       </v-date-picker>
                     </v-menu>
                   </v-col>
@@ -120,15 +126,15 @@
                   </v-col>
                 </v-row>
                 <v-row align="center" justify="center">
-                      <v-col align="center" cols="12" md="6" sm="6">
-                        <div class="my-3">
-                            <v-btn color="primary" router :to="{path:'/canvas'}">Create Project</v-btn>
-                        </div>
-                        <div class="my-3">
-                            <v-btn color="primary" router :to="{path:'/newproject'}">Go Back</v-btn>
-                        </div>
-                      </v-col>
-                  </v-row>
+                  <v-col align="center" cols="12" md="6" sm="6">
+                    <div class="my-3">
+                      <v-btn color="primary" router :to="{path:'/canvas'}">Create Project</v-btn>
+                    </div>
+                    <div class="my-3">
+                      <v-btn color="primary" router :to="{path:'/newproject'}">Go Back</v-btn>
+                    </div>
+                  </v-col>
+                </v-row>
               </v-card-text>
             </v-card>
           </v-col>
@@ -141,27 +147,32 @@
 <script>
 import UploadFiles from "../UploadFile/UploadFile";
 export default {
-  data:()=> ({
+  data: () => ({
     project: {
       name: "",
       fuente: 0,
     },
-    items: ["Nada", "Nada2"],
-    date: new Date().toISOString().substr(0, 7),
-    dateTwo:new Date().toISOString().substr(0, 7),
-    menu: false,
-    menuTwo: false,
-    picker: null,
-    pickerTwo:null
+    planversionID: ["Nada", "Nada2"],
+    filesOnServer: ["Nada", "Nada"],
+    initialDate: new Date().toISOString().substr(0, 7),
+    finalDate: new Date().toISOString().substr(0, 7),
+    initialMenu: false,
+    finalMenu: false,
+    InitialTimePicker: null,
+    FinalTimePicker: null,
+    showUpload: false,
+    showSelect: false,
   }),
-  components:{
-    UploadFiles
+  components: {
+    UploadFiles,
   },
-  methods:{
-    createProject: function(event){
-
-    }
-  }
+  mounted: function () {
+    // Load the planversions id
+  },
+  methods: {
+    createProject: function (event) {},
+    loadPlanVersions: function (event) {},
+  },
 };
 </script>
 

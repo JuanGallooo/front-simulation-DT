@@ -13,7 +13,7 @@
     <label class="btn btn-default">
       <input type="file" ref="file" @change="selectFile" />
     </label>
-    <button class="btn btn-success" :disabled="!selectedFiles" @click="upload">Upload</button>
+    <v-btn color="primary" :disabled="!selectedFiles" @click="upload">Upload</v-btn>
     <div class="alert alert-light" role="alert">{{ message }}</div>
   </div>
 </template>
