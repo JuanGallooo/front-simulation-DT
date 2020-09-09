@@ -128,7 +128,7 @@
                 <v-row align="center" justify="center">
                   <v-col align="center" cols="12" md="6" sm="6">
                     <div class="my-3">
-                      <v-btn color="primary" router :to="{path:'/canvas'}">Create Project</v-btn>
+                      <v-btn color="primary" router :to="{path:'/variables'}">Create Project</v-btn>
                     </div>
                     <div class="my-3">
                       <v-btn color="primary" router :to="{path:'/newproject'}">Go Back</v-btn>
