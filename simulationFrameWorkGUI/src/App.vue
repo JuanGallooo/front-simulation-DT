@@ -16,6 +16,13 @@ export default {
 </script>
 
 <style lang="scss">
+
+@import 'styles/layout.scss';
+@import 'styles/menu-toggle-btn.scss';
+@import 'styles/menu.scss';
+@import 'styles/content-overlay.scss';
+@import 'styles/media-queries.scss';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -42,4 +49,5 @@ li {
 a {
   color: #42b983;
 }
+
 </style>
