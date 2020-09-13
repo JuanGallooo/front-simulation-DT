@@ -21,7 +21,7 @@ ul {
 }
 
 .menu {
-  // position: absolute;
+  position: absolute;
   margin-top: 50%;
   width: 277px;
   height: 100%;
@@ -94,6 +94,7 @@ ul {
 // context menu
 .context-menu-container {
   position: absolute;
+  margin-top: 50%;
   left: 40px;
   width: 237px;
   height: 100%;

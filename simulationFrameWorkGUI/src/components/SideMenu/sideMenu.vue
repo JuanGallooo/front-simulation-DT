@@ -143,10 +143,10 @@ export default {
       this.contextSection = context;
       this.menuItens = this.menuData[context];
 
-      if (context === 'home') {
-        this.$router.push('/');
-        window.bus.$emit('menu/closeMobileMenu');
-      }
+      // if (context === 'home') {
+      //   this.$router.push('/');
+      //   window.bus.$emit('menu/closeMobileMenu');
+      // }
     },
 
     highlightSection(section) {
@@ -172,7 +172,7 @@ export default {
       this.activeSubMenu = item.txt;
 
       this.$router.push(this.getUrl(item));
-      window.bus.$emit('menu/closeMobileMenu');
+      // window.bus.$emit('menu/closeMobileMenu');
     },
 
     getUrl(item) {
