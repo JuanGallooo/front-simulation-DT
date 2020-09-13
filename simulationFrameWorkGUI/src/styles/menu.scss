@@ -13,7 +13,7 @@ ul {
   height: 100%;
   margin-left: -277px;
   // overflow-y: auto;
-  background: #000;
+  background: #3d02f3 !important;
   // vertical-align: center;
   top: 0;
   overflow: hidden;
@@ -21,7 +21,8 @@ ul {
 }
 
 .menu {
-  position: fixed;
+  // position: absolute;
+  margin-top: 50%;
   width: 277px;
   height: 100%;
   background: #3d02f3 !important;
@@ -96,19 +97,19 @@ ul {
   left: 40px;
   width: 237px;
   height: 100%;
-  background: #000;
+  background: #3d02f3 !important;
 }
 
 .context-menu {
   position: absolute;
   top: 0;
   width: 100%;
-  background: #000;
+  background: #3d02f3 !important;
 }
 
 .context-menu__title {
   font-size: 1.20rem;
-  color: #fff;
+  color: #fff ;
   padding: 18px 0 17px 8px;
   border-bottom: 1px solid #ccc;
 }
@@ -120,7 +121,7 @@ ul {
 .context-menu__btn-close {
   float: right;
   margin-right: 8px;
-  color: #fff;
+  color: #fff !important;
 
   &:hover {
     color: #fff;
@@ -130,7 +131,7 @@ ul {
 .context-menu__link {
   display: block;
   padding: 10px;
-  color: #fff;
+  color: #fff !important;
   text-decoration: none;
   background: transparent;
 

@@ -18,7 +18,7 @@
         </a>
       </li> -->
 
-      <li>
+      <!-- <li>
         <a
         href="#"
         @click.prevent="updateMenu('home')"
@@ -27,41 +27,41 @@
             <i class="fa fa-home menu__icon" aria-hidden="true"></i>
             Home
         </a>
-      </li>
+      </li> -->
 
       <li>
         <a
         href="#"
-        @click.prevent="updateMenu('products')"
-        :class="highlightSection('products')"
+        @click.prevent="updateMenu('project')"
+        :class="highlightSection('project')"
         >
-          <i class="fa fa-tag menu__icon" aria-hidden="true"></i>
-          Products
-          <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="true"></i>
+          <i class="fas fa-folder menu__icon" aria-hidden="true"></i>
+          Project &nbsp;
+          <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="false"></i>
         </a>
       </li>
 
       <li>
         <a
         href="#"
-        @click.prevent="updateMenu('customers')"
-        :class="highlightSection('customers')"
+        @click.prevent="updateMenu('configuration')"
+        :class="highlightSection('configuration')"
         >
-          <i class="fa fa-users menu__icon" aria-hidden="true"></i>
-          Customers
-          <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="true"></i>
+          <i class="fas fa-wrench menu__icon" aria-hidden="true"></i>
+          Configuration
+          <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="false"></i>
         </a>
       </li>
 
       <li>
         <a
         href="#"
-        @click.prevent="updateMenu('account')"
-        :class="highlightSection('account')"
+        @click.prevent="updateMenu('analysis')"
+        :class="highlightSection('analysis')"
         >
-          <i class="fa fa-user menu__icon" aria-hidden="true"></i>
-          Account
-          <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="true"></i>
+          <i class="far fa-chart-bar menu__icon" aria-hidden="true"></i>
+          Analysis
+          <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="false"></i>
         </a>
       </li>
 
@@ -88,7 +88,7 @@
               class="context-menu__btn-close"
               href="#"
               >
-                <i class="fa fa-window-close" aria-hidden="true"></i>
+                <i class="fa fa-window-close" aria-hidden="false"></i>
               </a>
 
             </h5>

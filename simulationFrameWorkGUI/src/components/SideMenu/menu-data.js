@@ -3,40 +3,40 @@ export default {
   // home is a section without childs, set as an empty array
   home: [],
 
-  products: [
+  project: [
 
     {
       type: 'title',
-      txt: 'Products',
-      icon: 'fa fa-tag context-menu__title-icon',
+      txt: 'Project',
+      icon: 'fas fa-folder context-menu__title-icon',
     },
 
     {
       type: 'link',
-      txt: 'List Products',
+      txt: 'New project',
       link: '/page',
     },
 
     {
       type: 'link',
-      txt: 'Add New Product',
+      txt: 'Save project',
       link: '/page',
     },
 
     {
       type: 'link',
-      txt: 'Manage Categories',
+      txt: 'Load Project',
       link: '/page',
     },
 
   ],
 
-  customers: [
+  configuration: [
 
     {
       type: 'title',
-      txt: 'Customers',
-      icon: 'fa fa-users context-menu__title-icon',
+      txt: 'Configuration',
+      icon: 'fas fa-wrench context-menu__title-icon',
     },
 
     {
@@ -59,12 +59,12 @@ export default {
 
   ],
 
-  account: [
+  analysis: [
 
     {
       type: 'title',
       txt: 'My Account',
-      icon: 'fa fa-user context-menu__title-icon',
+      icon: 'far fa-chart-bar context-menu__title-icon',
     },
 
     {
