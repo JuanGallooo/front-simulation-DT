@@ -5,10 +5,10 @@
             <sideBar></sideBar>
           </v-col>
           <v-col cols="12" sm="8" md="4">
-            Hola
+            <map></map>
           </v-col>
           <v-col cols="12" sm="8" md="4">
-            <map></map>
+            <play-button></play-button>
           </v-col>
         </v-row>
   </v-app>
@@ -16,14 +16,16 @@
 <script>
 import sideBar from '../SideMenu/SideMenu'
 import map from "../Map/Map"
+import playButton from "../Buttons/PlayButton"
 export default {
   name: "Canvas",
   data() {
     return {};
   },
   components: {
+    "play-button": playButton,
     sideBar,
-    map
+    map, 
   },
   created() {
     window.bus.$on('menu/toggle', () => {

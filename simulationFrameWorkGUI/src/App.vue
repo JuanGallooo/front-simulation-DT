@@ -22,6 +22,7 @@ export default {
 @import 'styles/menu.scss';
 @import 'styles/content-overlay.scss';
 @import 'styles/media-queries.scss';
+@import 'components/Buttons/player.scss';
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
