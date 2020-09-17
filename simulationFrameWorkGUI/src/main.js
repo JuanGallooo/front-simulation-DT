@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import vuetify from './plugins/vuetify' 
+import vuetify from './plugins/vuetify'
 import store from './store/index'
 import router from './router/index'
 import App from './App.vue'
@@ -43,7 +43,7 @@ library.add(faPlay,
   faWindowClose,
   faEllipsisH,
   faCat)
-  
+
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 

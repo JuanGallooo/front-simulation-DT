@@ -5,7 +5,7 @@
             <sideBar></sideBar>
           </v-col>
           <v-col cols="12" sm="8" md="4">
-            <map></map>
+            <mapC></mapC>
           </v-col>
           <v-col cols="12" sm="8" md="4">
             <play-button></play-button>
@@ -15,7 +15,7 @@
 </template>
 <script>
 import sideBar from '../SideMenu/SideMenu'
-import map from "../Map/Map"
+import mapC from "../Map/mapCanvas"
 import playButton from "../Buttons/PlayButton"
 export default {
   name: "Canvas",
@@ -25,7 +25,7 @@ export default {
   components: {
     "play-button": playButton,
     sideBar,
-    map, 
+    mapC,
   },
   created() {
     window.bus.$on('menu/toggle', () => {
