@@ -187,13 +187,11 @@ export default {
   methods: {
     createProject: function (event) {},
     loadPlanVersionsCSV: function (event) {
-      let type="csv"
-      this.$store.dispatch('projects/loadPlanVersions',type)
+      let payload= {type:"FileCSV"}
+      this.$store.dispatch('projects/loadPlanVersions',payload)
     },
     loadPlanVersionOracle: function(event){
-      let payload= {type:"oracle"}
-        
-      
+      let payload= {type:"DataBase"}
       this.$store.dispatch('projects/loadPlanVersions',payload)
     }
   },
