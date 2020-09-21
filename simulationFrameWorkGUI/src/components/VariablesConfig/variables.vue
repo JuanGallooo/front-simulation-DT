@@ -44,10 +44,6 @@
 </template>
 
 
-
-
-
-
 <script>
 export default {
   data: () => ({
@@ -61,5 +57,28 @@ export default {
     ],
     dialog: false,
   }),
+
+  mounted: function (){
+    if(this.$store.getters['variables/getAllVariables'].length==0){
+      this.$store.dispatch('variables/loadAllVariables')
+    }else{
+      this.items=this.$store.g etters['variables/getAllVariables']
+    }
+
+    this.$store.subcribe( (mutation, state) => {
+      if (mutation.type === 'variables/setVariblesStates') {
+          this.items=this.$store.getters['variables/getAllVariables']
+      }
+    })
+
+  },
+
+  methods: {
+    loadAllVariables: function (event){
+      this.$store.dispatch('variables/loadAllVariables')
+    }
+  }
+
+
 };
 </script>

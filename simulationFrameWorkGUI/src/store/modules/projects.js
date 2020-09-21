@@ -30,7 +30,7 @@ const actions = {
     }
 }
 
-//mutations 
+//mutations
 const mutations={
     setFilesNameStates(state,filesNames){
         state.fileNames= filesNames
