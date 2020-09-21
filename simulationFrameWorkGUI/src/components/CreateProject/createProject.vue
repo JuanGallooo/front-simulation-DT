@@ -11,6 +11,7 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
+                  
                   <v-text-field v-model="project.name" label="Project Name" name="name" type="text"></v-text-field>
                   <label>Target System</label>
                   <v-row align="center" justify="center">
@@ -28,7 +29,7 @@
                         id="oracle"
                         name="oracle"
                         v-model="project.fuente"
-                        value="Oracle"
+                        value="Oracle" v-on:input="loadPlanVersionOracle"
                       />
                       <label for="oracle">Oracle</label>
                     </v-col>
@@ -54,13 +55,13 @@
                         color="primary"
                         @click="showUpload = false; showSelect= true;"
                       >On Server</v-btn>
-                      <v-select v-if="showSelect" :items="filesOnServer" label="Select Archive"></v-select>
+                      <v-select v-if="showSelect" @change="loadPlanVersionsCSV" v-model="archiveSelected" :items="filesOnServer" label="Select Archive"></v-select>
                     </v-col>
                   </v-row>
                 </v-form>
                 <v-row>
-                  <v-col cols="12" align="center" justify="center">
-                    <v-select :items="planversionID" label="PlanVersion ID"></v-select>
+                  <v-col cols="12" align="center" justify="center" v-if="archiveSelected!='' || project.fuente=='Oracle'">
+                    <v-select :items="planversionID" label="PlanVersion ID" item-text="planVersionId"></v-select>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -141,6 +142,7 @@
         </v-row>
       </v-container>
     </v-main>
+    {{archiveSelected}}
   </v-app>
 </template>
 
@@ -152,8 +154,8 @@ export default {
       name: "",
       fuente: 0,
     },
-    planversionID: ["Nada", "Nada2"],
-    filesOnServer: ["Nada", "Nada"],
+    planversionID: [],
+    filesOnServer: [],
     initialDate: new Date().toISOString().substr(0, 7),
     finalDate: new Date().toISOString().substr(0, 7),
     initialMenu: false,
@@ -162,16 +164,38 @@ export default {
     FinalTimePicker: null,
     showUpload: false,
     showSelect: false,
+    archiveSelected: "",
   }),
   components: {
     UploadFiles,
   },
   mounted: function () {
-    // Load the planversions id
+    if(this.$store.getters['projects/getAllFileNames'].length==0){
+      this.$store.dispatch('projects/loadAllFilesNames')
+    }else{
+      this.filesOnServer=this.$store.getters['projects/getAllFileNames']
+    }
+    this.$store.subscribe( (mutation, state) => {
+      if (mutation.type === 'projects/setFilesNameStates') {
+        this.filesOnServer=this.$store.getters['projects/getAllFileNames']
+      }
+      if( mutation.type === 'projects/setPlanVersions'){
+        this.planversionID= this.$store.getters['projects/getAllPlanVersions']
+      }
+    })
   },
   methods: {
     createProject: function (event) {},
-    loadPlanVersions: function (event) {},
+    loadPlanVersionsCSV: function (event) {
+      let type="csv"
+      this.$store.dispatch('projects/loadPlanVersions',type)
+    },
+    loadPlanVersionOracle: function(event){
+      let payload= {type:"oracle"}
+        
+      
+      this.$store.dispatch('projects/loadPlanVersions',payload)
+    }
   },
 };
 </script>

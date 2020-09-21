@@ -1,6 +1,6 @@
 import Axios from 'axios'
 
-const DEV_URL = 'localhost:1000/';
+const DEV_URL = 'http://localhost:8081/simulation';
 
 const axios= Axios.create({
     baseURL: DEV_URL
@@ -12,6 +12,7 @@ const BASE_ROUTES={
     buses:"/buses",
     lines:"/lines",
     projects:"/projects",
+    dataSorce:"/datasource",
     simulation:"/simulation",
     stops:"/stops"
 }
@@ -24,7 +25,7 @@ const BASE_ROUTES={
 */
 function getAll(){
     return axios.get(this.baseRoute);
-  }
+}
 /**
 * Retrieve a single item
 * @param {numbre} id
@@ -32,6 +33,9 @@ function getAll(){
 */
 function get(id){
     return axios.get(this.baseRoute+"/"+id);
+}
+function get(id,params){
+    return axios.get(this.baseRoute+"/"+id, { params });
 }
 
 /**
