@@ -61,7 +61,7 @@
                 </v-form>
                 <v-row>
                   <v-col cols="12" align="center" justify="center" v-if="archiveSelected!='' || project.fuente=='Oracle'">
-                    <v-select :items="planversionID" label="PlanVersion ID" item-text="planVersionId"></v-select>
+                    <v-select :items="planversionID" label="PlanVersion ID" v-model="planVersionSelected" item-text="planVersionId"  @change="loadDatesByPlanVersion"></v-select>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -70,7 +70,7 @@
                       ref="menu"
                       v-model="initialMenu"
                       :close-on-content-click="false"
-                      :return-value.sync="date"
+                      :return-value.sync="initialMenu"
                       transition="scale-transition"
                       offset-y
                       min-width="290px"
@@ -120,10 +120,10 @@
                 </v-row>
                 <v-row justify="space-around" align="center">
                   <v-col cols="6" align="center" justify="center">
-                    <v-time-picker v-model="picker" scrollable></v-time-picker>
+                    <v-time-picker v-model="InitialTimePicker" scrollable></v-time-picker>
                   </v-col>
                   <v-col cols="6" align="center" justify="center">
-                    <v-time-picker v-model="pickerTwo" scrollable></v-time-picker>
+                    <v-time-picker v-model="FinalTimePicker" scrollable></v-time-picker>
                   </v-col>
                 </v-row>
                 <v-row align="center" justify="center">
@@ -142,7 +142,6 @@
         </v-row>
       </v-container>
     </v-main>
-    {{archiveSelected}}
   </v-app>
 </template>
 
@@ -165,6 +164,7 @@ export default {
     showUpload: false,
     showSelect: false,
     archiveSelected: "",
+    planVersionSelected: null,
   }),
   components: {
     UploadFiles,
@@ -179,8 +179,14 @@ export default {
       if (mutation.type === 'projects/setFilesNameStates') {
         this.filesOnServer=this.$store.getters['projects/getAllFileNames']
       }
-      if( mutation.type === 'projects/setPlanVersions'){
-        this.planversionID= this.$store.getters['projects/getAllPlanVersions']
+      if (mutation.type === 'projects/setPlanVersions') {
+        this.planversionID=this.$store.getters['projects/getAllPlanVersions']
+      }
+      if( mutation.type === 'projects/setInitialDate'){
+        this.initialDate= this.$store.getters['projects/getInitialDate']
+      }
+      if( mutation.type === 'projects/setFinalDate'){
+        this.finalDate= this.$store.getters['projects/getLastDate']
       }
     })
   },
@@ -193,6 +199,20 @@ export default {
     loadPlanVersionOracle: function(event){
       let payload= {type:"DataBase"}
       this.$store.dispatch('projects/loadPlanVersions',payload)
+    },
+    loadDatesByPlanVersion: function(event){
+      let typeDB= "";
+      if(this.project.fuente=== "CSV"){
+        typeDB= "FileCSV"
+      }else if(this.project.fuente=== "Oracle"){  
+        typeDB= "DataBase"
+      }
+      let payload= {
+        type:typeDB,
+        planVersionId: this.planVersionSelected
+      }
+      console.log( payload)
+      this.$store.dispatch('projects/loadDatesByPlanversion',payload)
     }
   },
 };
