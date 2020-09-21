@@ -34,9 +34,6 @@ function getAll(){
 function get(id){
     return axios.get(this.baseRoute+"/"+id);
 }
-function get(id,params){
-    return axios.get(this.baseRoute+"/"+id, { params });
-}
 
 /**
 * Update an item
@@ -56,8 +53,14 @@ function put(id, itemInfo){
 * @return {Promise} 
 */
 function request(url, method="get", data={}, params={}){
-    return axios.request({url, method, data, params});
+    return axios.request({url: this.baseRoute+url, method, data, params});
 }
+
+
+function externalRequest(url, method="get", data={}, params={}){
+    return axios.request({url:url, method, data, params});
+}
+
 
 /**
 * Create new item
