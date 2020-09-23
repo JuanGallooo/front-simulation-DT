@@ -45,7 +45,7 @@
                           <label>Separator</label>
                         </v-col>
                         <v-col cols="6">
-                          <v-text-field></v-text-field>
+                          <v-text-field v-model="separator"></v-text-field>
                         </v-col>
                       </v-row>
                       <UploadFiles v-if="showUpload"></UploadFiles>
@@ -55,13 +55,21 @@
                         color="primary"
                         @click="showUpload = false; showSelect= true;"
                       >On Server</v-btn>
+                      <v-row v-if="showSelect" align="center">
+                        <v-col cols="6">
+                          <label>Separator</label>
+                        </v-col>
+                        <v-col cols="6">
+                          <v-text-field v-model="separator"></v-text-field>
+                        </v-col>
+                      </v-row>
                       <v-select v-if="showSelect" @change="loadPlanVersionsCSV" v-model="archiveSelected" :items="filesOnServer" label="Select Archive"></v-select>
                     </v-col>
                   </v-row>
                 </v-form>
                 <v-row>
                   <v-col cols="12" align="center" justify="center" v-if="archiveSelected!='' || project.fuente=='Oracle'">
-                    <v-select :items="planversionID" label="PlanVersion ID" item-text="planVersionId"></v-select>
+                    <v-select :items="planversionID" label="PlanVersion ID" v-model="planVersionSelected" item-text="planVersionId"  @change="loadDatesByPlanVersion"></v-select>
                   </v-col>
                 </v-row>
                 <v-row>
@@ -70,7 +78,7 @@
                       ref="menu"
                       v-model="initialMenu"
                       :close-on-content-click="false"
-                      :return-value.sync="date"
+                      :return-value.sync="initialMenu"
                       transition="scale-transition"
                       offset-y
                       min-width="290px"
@@ -120,16 +128,16 @@
                 </v-row>
                 <v-row justify="space-around" align="center">
                   <v-col cols="6" align="center" justify="center">
-                    <v-time-picker v-model="picker" scrollable></v-time-picker>
+                    <v-time-picker v-model="InitialTimePicker" scrollable></v-time-picker>
                   </v-col>
                   <v-col cols="6" align="center" justify="center">
-                    <v-time-picker v-model="pickerTwo" scrollable></v-time-picker>
+                    <v-time-picker v-model="FinalTimePicker" scrollable></v-time-picker>
                   </v-col>
                 </v-row>
                 <v-row align="center" justify="center">
                   <v-col align="center" cols="12" md="6" sm="6">
                     <div class="my-3">
-                      <v-btn color="primary" router :to="{path:'/variables'}">Create Project</v-btn>
+                      <v-btn color="primary" router @click="saveProject" >Create Project</v-btn>
                     </div>
                     <div class="my-3">
                       <v-btn color="primary" router :to="{path:'/newproject'}">Go Back</v-btn>
@@ -142,7 +150,6 @@
         </v-row>
       </v-container>
     </v-main>
-    {{archiveSelected}}
   </v-app>
 </template>
 
@@ -165,6 +172,8 @@ export default {
     showUpload: false,
     showSelect: false,
     archiveSelected: "",
+    planVersionSelected: null,
+    separator: null
   }),
   components: {
     UploadFiles,
@@ -179,8 +188,14 @@ export default {
       if (mutation.type === 'projects/setFilesNameStates') {
         this.filesOnServer=this.$store.getters['projects/getAllFileNames']
       }
-      if( mutation.type === 'projects/setPlanVersions'){
-        this.planversionID= this.$store.getters['projects/getAllPlanVersions']
+      if (mutation.type === 'projects/setPlanVersions') {
+        this.planversionID=this.$store.getters['projects/getAllPlanVersions']
+      }
+      if( mutation.type === 'projects/setInitialDate'){
+        this.initialDate= this.$store.getters['projects/getInitialDate']
+      }
+      if( mutation.type === 'projects/setFinalDate'){
+        this.finalDate= this.$store.getters['projects/getLastDate']
       }
     })
   },
@@ -193,6 +208,38 @@ export default {
     loadPlanVersionOracle: function(event){
       let payload= {type:"DataBase"}
       this.$store.dispatch('projects/loadPlanVersions',payload)
+    },
+    loadDatesByPlanVersion: function(event){
+      let typeDB= "";
+      if(this.project.fuente=== "CSV"){
+        typeDB= "FileCSV"
+      }else if(this.project.fuente=== "Oracle"){  
+        typeDB= "DataBase"
+      }
+      let payload= {
+        type:typeDB,
+        planVersionId: this.planVersionSelected
+      }
+      this.$store.dispatch('projects/loadDatesByPlanversion',payload)
+    },
+    saveProject: function(){
+      let payload={
+        name: this.project.name,
+        initialDate: this.initialDate,
+        finalDate: this.finalDate,
+        planVersionId: this.planVersionSelected,
+        fileType: "",
+        fileName: this.archiveSelected,
+        fileSplit: this.separator
+      }
+      console.log(payload)
+      if(this.project.fuente=== "CSV"){
+        payload.fileType= "FileCSV"
+        this.$store.dispatch('projects/createProjectCSV',payload)
+      }else if(this.project.fuente=== "Oracle"){  
+        payload.fileType= "DataBase"
+        this.$store.dispatch('projects/createProjectCSV',payload)
+      }
     }
   },
 };

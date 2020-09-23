@@ -27,16 +27,26 @@ const actions = {
     loadPlanVersions: function({commit},payload){
         axios.request({url:'/datasource/planversions',data:null, params: payload})
         .then(res => {      
-            console.log(res.data)
             commit('setPlanVersions',res.data)
         })
     },
     loadDatesByPlanversion: function({commit},payload){
         axios.request({url:'/datasource/dates', date:null, params:payload})
         .then(res => {
-            console.log(res.data)
             commit('setInitialDate',res.data[0])
             commit('setFinalDate',res.data[1])
+        })
+    },
+    createProjectCSV: function({commit},payload){
+        axios.post('/save/csv',payload)
+        .then(res=> {
+            console.log(res.data)
+        })
+    },
+    createProjectOracle: function({commit},payload){
+        axios.post('/save/oracle',payload)
+        .then(res=> {
+            console.log(res.data)
         })
     }
 }

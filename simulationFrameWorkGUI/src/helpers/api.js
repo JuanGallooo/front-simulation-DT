@@ -67,8 +67,8 @@ function externalRequest(url, method="get", data={}, params={}){
 * @param {Object} itemInfo the new Item
 * @return {Promise}
 */
-function post(itemInfo){
-    return axios.post(this.baseRoute, itemInfo);
+function post(id,itemInfo){
+    return axios.post(this.baseRoute+"/"+id, itemInfo);
 }
 
 /**
