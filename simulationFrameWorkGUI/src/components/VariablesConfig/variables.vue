@@ -10,17 +10,17 @@
           <v-card-text class="mx-auto" width="400" tilde>
             <h5> Por favor seleccione las variables que desea ver en la simulación</h5>
             <v-row align="center" justify="center">
-
                 <v-radio-group >
                   <div v-for="item in items" :key="item">
                     <input
                       type="checkbox"
-                      :id="item.text"
-                      :name="item.text"
+                      :id="item"
+                      :name="item"
                       v-model="itemSelected"
-                      :value="item.text"
+                      :value="item"
                     />
-                    <label>{{item.text}}</label>
+                    <label>{{item}}</label>
+
                   </div>
                 </v-radio-group>
 
@@ -49,11 +49,11 @@ export default {
   data: () => ({
     itemSelected: [],
     items: [
-      { text: "BusID" },
-      { text: "datagramDate" },
-      { text: "LineID" },
-      { text: "Longitud" },
-      { text: "Latitud" },
+      "BusID",
+      "datagramDate",
+      "LineID",
+      "Longitud",
+      "Latitud",
     ],
     dialog: false,
   }),
@@ -62,7 +62,7 @@ export default {
     if(this.$store.getters['variables/getAllVariables'].length==0){
       this.$store.dispatch('variables/loadAllVariables')
     }else{
-      this.items=this.$store.g etters['variables/getAllVariables']
+      this.items=this.$store.getters['variables/getAllVariables']
     }
 
     this.$store.subcribe( (mutation, state) => {
@@ -72,13 +72,11 @@ export default {
     })
 
   },
-
   methods: {
     loadAllVariables: function (event){
-      this.$store.dispatch('variables/loadAllVariables')
+      let payload = {projectName:"test.dat"}
+      this.$store.dispatch('variables/loadAllVariables',payload)
     }
   }
-
-
 };
 </script>

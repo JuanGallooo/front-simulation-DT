@@ -11,7 +11,7 @@
               </v-toolbar>
               <v-card-text>
                 <v-form>
-                  
+
                   <v-text-field v-model="project.name" label="Project Name" name="name" type="text"></v-text-field>
                   <label>Target System</label>
                   <v-row align="center" justify="center">
@@ -137,7 +137,7 @@
                 <v-row align="center" justify="center">
                   <v-col align="center" cols="12" md="6" sm="6">
                     <div class="my-3">
-                      <v-btn color="primary" router @click="saveProject" >Create Project</v-btn>
+                      <v-btn color="primary" router :to="{path:'/variables'}"  @click="saveProject"  >Create Project</v-btn>
                     </div>
                     <div class="my-3">
                       <v-btn color="primary" router :to="{path:'/newproject'}">Go Back</v-btn>
@@ -213,7 +213,7 @@ export default {
       let typeDB= "";
       if(this.project.fuente=== "CSV"){
         typeDB= "FileCSV"
-      }else if(this.project.fuente=== "Oracle"){  
+      }else if(this.project.fuente=== "Oracle"){
         typeDB= "DataBase"
       }
       let payload= {
@@ -235,8 +235,8 @@ export default {
       console.log(payload)
       if(this.project.fuente=== "CSV"){
         payload.fileType= "FileCSV"
-        this.$store.dispatch('projects/createProjectCSV',payload)
-      }else if(this.project.fuente=== "Oracle"){  
+        this.$store.dispatch('projects/save',payload)
+      }else if(this.project.fuente=== "Oracle"){
         payload.fileType= "DataBase"
         this.$store.dispatch('projects/createProjectCSV',payload)
       }
