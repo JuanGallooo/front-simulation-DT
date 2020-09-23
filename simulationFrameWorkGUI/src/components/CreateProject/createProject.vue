@@ -45,7 +45,7 @@
                           <label>Separator</label>
                         </v-col>
                         <v-col cols="6">
-                          <v-text-field></v-text-field>
+                          <v-text-field v-model="separator"></v-text-field>
                         </v-col>
                       </v-row>
                       <UploadFiles v-if="showUpload"></UploadFiles>
@@ -55,6 +55,14 @@
                         color="primary"
                         @click="showUpload = false; showSelect= true;"
                       >On Server</v-btn>
+                      <v-row v-if="showSelect" align="center">
+                        <v-col cols="6">
+                          <label>Separator</label>
+                        </v-col>
+                        <v-col cols="6">
+                          <v-text-field v-model="separator"></v-text-field>
+                        </v-col>
+                      </v-row>
                       <v-select v-if="showSelect" @change="loadPlanVersionsCSV" v-model="archiveSelected" :items="filesOnServer" label="Select Archive"></v-select>
                     </v-col>
                   </v-row>
@@ -129,7 +137,7 @@
                 <v-row align="center" justify="center">
                   <v-col align="center" cols="12" md="6" sm="6">
                     <div class="my-3">
-                      <v-btn color="primary" router :to="{path:'/variables'}">Create Project</v-btn>
+                      <v-btn color="primary" router @click="saveProject" >Create Project</v-btn>
                     </div>
                     <div class="my-3">
                       <v-btn color="primary" router :to="{path:'/newproject'}">Go Back</v-btn>
@@ -165,6 +173,7 @@ export default {
     showSelect: false,
     archiveSelected: "",
     planVersionSelected: null,
+    separator: null
   }),
   components: {
     UploadFiles,
@@ -211,8 +220,26 @@ export default {
         type:typeDB,
         planVersionId: this.planVersionSelected
       }
-      console.log( payload)
       this.$store.dispatch('projects/loadDatesByPlanversion',payload)
+    },
+    saveProject: function(){
+      let payload={
+        name: this.project.name,
+        initialDate: this.initialDate,
+        finalDate: this.finalDate,
+        planVersionId: this.planVersionSelected,
+        fileType: "",
+        fileName: this.archiveSelected,
+        fileSplit: this.separator
+      }
+      console.log(payload)
+      if(this.project.fuente=== "CSV"){
+        payload.fileType= "FileCSV"
+        this.$store.dispatch('projects/createProjectCSV',payload)
+      }else if(this.project.fuente=== "Oracle"){  
+        payload.fileType= "DataBase"
+        this.$store.dispatch('projects/createProjectCSV',payload)
+      }
     }
   },
 };

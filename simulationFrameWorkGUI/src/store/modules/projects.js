@@ -37,8 +37,14 @@ const actions = {
             commit('setFinalDate',res.data[1])
         })
     },
-    createProject: function({commit},payload){
+    createProjectCSV: function({commit},payload){
         axios.post('/save/csv',payload)
+        .then(res=> {
+            console.log(res.data)
+        })
+    },
+    createProjectOracle: function({commit},payload){
+        axios.post('/save/oracle',payload)
         .then(res=> {
             console.log(res.data)
         })
