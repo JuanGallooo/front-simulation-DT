@@ -38,13 +38,13 @@ const actions = {
         })
     },
     createProjectCSV: function({commit},payload){
-        axios.post('/save/csv',payload)
+        axios.post('project/save',payload)
         .then(res=> {
             console.log(res.data)
         })
     },
     createProjectOracle: function({commit},payload){
-        axios.post('/save/oracle',payload)
+        axios.post('project/save/oracle',payload)
         .then(res=> {
             console.log(res.data)
         })
