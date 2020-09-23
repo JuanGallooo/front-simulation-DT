@@ -48,33 +48,34 @@
 export default {
   data: () => ({
     itemSelected: [],
-    items: [
-      "BusID",
-      "datagramDate",
-      "LineID",
-      "Longitud",
-      "Latitud",
-    ],
+    items: [],
     dialog: false,
   }),
 
-  mounted: function (){
+  created: function(){
+
+    let payload = {projectName:"test.dat"}
+
     if(this.$store.getters['variables/getAllVariables'].length==0){
-      this.$store.dispatch('variables/loadAllVariables')
+      this.$store.dispatch('variables/loadAllVariables',payload)
     }else{
       this.items=this.$store.getters['variables/getAllVariables']
     }
 
-    this.$store.subcribe( (mutation, state) => {
+    this.$store.subscribe((mutation, state) => {
       if (mutation.type === 'variables/setVariblesStates') {
-          this.items=this.$store.getters['variables/getAllVariables']
+        this.items=this.$store.getters['variables/getAllVariables']
       }
     })
+  },
+
+  mounted: function (){
 
   },
+
   methods: {
     loadAllVariables: function (event){
-      let payload = {projectName:"test.dat"}
+
       this.$store.dispatch('variables/loadAllVariables',payload)
     }
   }

@@ -5,6 +5,7 @@ import lines from './modules/lines'
 import projects from './modules/projects'
 import simulation from './modules/simulation'
 import stops from './modules/stops'
+import variables from './modules/variables'
 
 
 Vue.use(Vuex)
@@ -15,6 +16,7 @@ export default new Vuex.Store({
         lines,
         projects,
         simulation,
+        variables,
         stops
     }
 })

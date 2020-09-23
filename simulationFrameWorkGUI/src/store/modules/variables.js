@@ -13,7 +13,7 @@ const getters={
 // Actions
 const actions = {
   loadAllVariables: function({commit}, payload){
-      axios.get('/datasource/headers', payload)
+      axios.request({url:'/datasource/headers',data:null, params: payload})
       .then(res => {
           commit('setVariablesStates',res.data)
       })
@@ -28,6 +28,7 @@ const mutations={
 }
 
 export default{
+  namespaced: true,
   state,
   getters,
   actions,
