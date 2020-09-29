@@ -1,6 +1,6 @@
 <template>
   <div id="map" class="map" style="height: 900px">
-    <div class="form-check" v-for="layer in layers" :key="layer.id">
+    <div v-for="stop in stops" :key="stop.id">
       <!-- label and input elements go here -->
     </div>
   </div>
@@ -13,7 +13,7 @@ export default {
     return {
       map: null,
       tileLayer: null,
-      layers: [],
+      stops: [],
     };
   },
 
@@ -30,15 +30,14 @@ export default {
     if (this.$store.getters["stops/getAllStops"].length == 0) {
       this.$store.dispatch("stops/loadStops", payload)
     } else {
-      this.layers = this.$store.getters["stops/getAllStops"]
+      this.stops = this.$store.getters["stops/getAllStops"]
     }
 
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === "stops/setStopsToState") {
-        this.layers = this.$store.getters["stops/getAllStops"]
-        //actualizar los stops
-        console.log(this.layers)
-        this.initLayers(this.layers);
+        this.stops = this.$store.getters["stops/getAllStops"]
+        console.log(this.stops)
+        this.initStops();
       }
     })
 
@@ -60,18 +59,17 @@ export default {
       this.tileLayer.addTo(this.map);
     },
 
-    initLayers(layers) {
-      console.log("Layers");
-      console.log(this.layers)
-      this.layers.forEach((layer) => {
-        let coords = [layer.decimalLatitude, layer.decimalLongitude];
-        layer.leafletObject = L.marker(coords).bindPopup(layer.longName);
-        layer.leafletObject.addTo(this.map);
+    initStops() {
+      console.log("stops");
+      console.log(this.stops)
+      this.stops.forEach((stop) => {
+        let coords = [stop.decimalLatitude, stop.decimalLongitude];
+        stop.leafletObject = L.marker(coords).bindPopup(stop.longName);
+        stop.leafletObject.addTo(this.map);
       });
     },
 
     loadStops: function (event) {
-
       this.$store.dispatch("stops/loadStops", payload)
     },
   },
