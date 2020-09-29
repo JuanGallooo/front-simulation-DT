@@ -65,9 +65,7 @@ export default {
       console.log(this.layers)
       this.layers.forEach((layer) => {
         let coords = [layer.decimalLatitude, layer.decimalLongitude];
-
         layer.leafletObject = L.marker(coords).bindPopup(layer.longName);
-
         layer.leafletObject.addTo(this.map);
       });
     },
