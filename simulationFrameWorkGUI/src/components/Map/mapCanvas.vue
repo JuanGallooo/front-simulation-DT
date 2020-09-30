@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import image from './estacion_roja.png'
+
 export default {
   name: "mapLeaflet",
   data() {
@@ -62,11 +64,14 @@ export default {
     initStops() {
       console.log("stops");
       console.log(this.stops)
+
       this.stops.forEach((stop) => {
         let coords = [stop.decimalLatitude, stop.decimalLongitude];
-        const Gicon = L.icon({iconUrl: "../../assets/estacion_roja.png",iconSize:[20, 20],iconAnchor:[20, 20],popupAnchor:[0, 0]})
-        stop.leafletObject = L.marker(coords, {icon: Gicon}).bindPopup(stop.longName);
-        stop.leafletObject.addTo(this.map);
+
+        var stopIcon = L.icon({iconUrl: image,iconSize:[20, 20],iconAnchor:[20, 20],popupAnchor:[0, 0]})
+
+        stop.leafletObject = L.marker(coords, {icon: stopIcon}).bindPopup(stop.longName).addTo(this.map);
+        //stop.leafletObject.addTo(this.map);
       });
     },
 
