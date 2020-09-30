@@ -3,11 +3,16 @@
     <div v-for="stop in stops" :key="stop.id">
       <!-- label and input elements go here -->
     </div>
+    <div v-for="bus in buses" :key="bus.id">
+      <!-- label and input elements go here -->
+    </div>
   </div>
 </template>
 
 <script>
-import image from './estacion_roja.png'
+import imageStop from './estacion_roja.png'
+import imageBus from './bus_azul.png'
+
 
 export default {
   name: "mapLeaflet",
@@ -16,6 +21,7 @@ export default {
       map: null,
       tileLayer: null,
       stops: [],
+      buses: []
     };
   },
 
@@ -35,11 +41,26 @@ export default {
       this.stops = this.$store.getters["stops/getAllStops"]
     }
 
+    let payloadBus = {
+      projectName: "test.dat"
+    }
+
+    if (this.$store.getters["buses/getAllBuses"].length == 0) {
+      this.$store.dispatch("buses/loadBuses", payloadBus)
+    } else {
+      this.stops = this.$store.getters["stops/getAllStops"]
+    }
+
+
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === "stops/setStopsToState") {
         this.stops = this.$store.getters["stops/getAllStops"]
-        console.log(this.stops)
         this.initStops();
+      }
+      if (mutation.type === "buses/setBusesToState"){
+        this.buses = this.$store.getters["buses/getAllBuses"]
+        console.log(this.buses)
+        this.initBuses();
       }
     })
 
@@ -62,22 +83,38 @@ export default {
     },
 
     initStops() {
-      console.log("stops");
-      console.log(this.stops)
-
       this.stops.forEach((stop) => {
         let coords = [stop.decimalLatitude, stop.decimalLongitude];
-
-        var stopIcon = L.icon({iconUrl: image,iconSize:[20, 20],iconAnchor:[20, 20],popupAnchor:[0, 0]})
-
+        var stopIcon = L.icon({iconUrl: imageStop,iconSize:[20, 20],iconAnchor:[20, 20],popupAnchor:[0, 0]})
         stop.leafletObject = L.marker(coords, {icon: stopIcon}).bindPopup(stop.longName).addTo(this.map);
-        //stop.leafletObject.addTo(this.map);
       });
+    },
+
+
+    initBuses(){
+      var markers = {};
+
+      this.buses.forEach((bus) => {
+        let coords = [bus.latitude, bus.longitude];
+        var busIcon = L.icon({iconUrl: imageBus,iconSize:[20, 20],iconAnchor:[20, 20],popupAnchor:[0, 0]})
+
+        if(markers[bus.busId]==null){
+            markers[bus.busId] = L.marker(coords).addTo(this.map)
+            markers[bus.busId].setIcon(busIcon);
+        }else{
+            markers[bus.busId].setIcon(busIcon);
+            markers[bus.busId].setLatLng(coords);
+        }
+      })
     },
 
     loadStops: function (event) {
       this.$store.dispatch("stops/loadStops", payload)
     },
+
+    loadBuses: function (event){
+      this.$store.dispatch("buses/loadBuses", payloadBus)
+    }
   },
 };
 </script>
