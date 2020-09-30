@@ -64,7 +64,8 @@ export default {
       console.log(this.stops)
       this.stops.forEach((stop) => {
         let coords = [stop.decimalLatitude, stop.decimalLongitude];
-        stop.leafletObject = L.marker(coords).bindPopup(stop.longName);
+        const Gicon = L.icon({iconUrl: "../../assets/estacion_roja.png",iconSize:[20, 20],iconAnchor:[20, 20],popupAnchor:[0, 0]})
+        stop.leafletObject = L.marker(coords, {icon: Gicon}).bindPopup(stop.longName);
         stop.leafletObject.addTo(this.map);
       });
     },
