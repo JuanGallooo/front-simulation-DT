@@ -233,19 +233,16 @@ export default {
         fileSplit: this.separator
       }
 
-
-      console.log(this.project.name)
-      console.log(this.planVersionSelected)
       this.$store.commit('projects/setProjectNameSeleted', this.project.name)
       this.$store.commit('projects/setPlanversionSeleted', this.planVersionSelected)
 
       if(this.project.fuente=== "CSV"){
         payload.fileType= "FileCSV"
-        console.log("ANTES DEL BACK")
-        console.log(payload)
+        this.$store.commit('projects/setTypeSelected',payload.fileType)
         this.$store.dispatch('projects/createProjectCSV',payload)
       }else if(this.project.fuente=== "Oracle"){
         payload.fileType= "DataBase"
+        this.$store.commit('projects/setTypeSelected',payload.fileType)
         this.$store.dispatch('projects/createProjectOracle',payload)
       }
       this.$router.push('/variables');

@@ -57,7 +57,6 @@ export default {
     let payload = {
       projectName: this.$store.getters['projects/getProjectNameSeleted']
     }
-    console.log(payload)
 
     if(this.$store.getters['variables/getAllVariables'].length==0){
       this.$store.dispatch('variables/loadAllVariables',payload)

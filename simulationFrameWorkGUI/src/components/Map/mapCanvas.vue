@@ -31,12 +31,11 @@ export default {
 
 
     let payload = {
-      type: this.$store.getters['project/getTypeSelected'],
-      planVersionId: this.$store.getters['project/getPlanversionSeleted'],
+      type: this.$store.getters['projects/getTypeSelected'],
+      planVersionId: this.$store.getters['projects/getPlanversionSeleted'],
       lineId: 131
     };
-
-    console.log(this.payload)
+    console.log(payload)
 
     if (this.$store.getters["stops/getAllStops"].length == 0) {
       this.$store.dispatch("stops/loadStops", payload)
@@ -45,14 +44,14 @@ export default {
     }
 
     let payloadBus = {
-      projectName: "test.dat"
+      projectName: this.$store.getters["projects/getProjectNameSeleted"]
     }
-    console.log(this.payloadBus)
+    console.log(payloadBus)
 
-    if (this.$store.getters["buses/getAllBuses"].length == 0) {
+    if (this.$store.getters["buses/getAllBuses"].length==0) {
       this.$store.dispatch("buses/loadBuses", payloadBus)
     } else {
-      this.stops = this.$store.getters["stops/getAllStops"]
+      this.buses = this.$store.getters["buses/getAllBuses"]
     }
 
     this.$store.subscribe((mutation, state) => {
