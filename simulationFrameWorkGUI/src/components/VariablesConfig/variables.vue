@@ -54,7 +54,10 @@ export default {
 
   created: function(){
 
-    let payload = {projectName:"test.dat"}
+    let payload = {
+      projectName: this.$store.getters['projects/getProjectNameSeleted']
+    }
+    console.log(payload)
 
     if(this.$store.getters['variables/getAllVariables'].length==0){
       this.$store.dispatch('variables/loadAllVariables',payload)
@@ -63,7 +66,7 @@ export default {
     }
 
     this.$store.subscribe((mutation, state) => {
-      if (mutation.type === 'variables/setVariblesStates') {
+      if (mutation.type === 'variables/setVariablesStates') {
         this.items=this.$store.getters['variables/getAllVariables']
       }
     })

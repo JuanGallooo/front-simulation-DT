@@ -232,16 +232,24 @@ export default {
         fileName: this.archiveSelected,
         fileSplit: this.separator
       }
-      console.log(payload)
+
+
+      console.log(this.project.name)
+      console.log(this.planVersionSelected)
+      this.$store.commit('projects/setProjectNameSeleted', this.project.name)
+      this.$store.commit('projects/setPlanversionSeleted', this.planVersionSelected)
+
       if(this.project.fuente=== "CSV"){
         payload.fileType= "FileCSV"
+        console.log("ANTES DEL BACK")
+        console.log(payload)
         this.$store.dispatch('projects/createProjectCSV',payload)
       }else if(this.project.fuente=== "Oracle"){
         payload.fileType= "DataBase"
         this.$store.dispatch('projects/createProjectOracle',payload)
       }
       this.$router.push('/variables');
-    }
+    },
   },
 };
 </script>

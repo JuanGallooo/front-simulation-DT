@@ -29,11 +29,14 @@ export default {
 
     this.initMap();
 
+
     let payload = {
-      type: "FileCSV",
-      planVersionId: 261,
-      lineId: 131,
+      type: this.$store.getters['project/getTypeSelected'],
+      planVersionId: this.$store.getters['project/getPlanversionSeleted'],
+      lineId: 131
     };
+
+    console.log(this.payload)
 
     if (this.$store.getters["stops/getAllStops"].length == 0) {
       this.$store.dispatch("stops/loadStops", payload)
@@ -44,13 +47,13 @@ export default {
     let payloadBus = {
       projectName: "test.dat"
     }
+    console.log(this.payloadBus)
 
     if (this.$store.getters["buses/getAllBuses"].length == 0) {
       this.$store.dispatch("buses/loadBuses", payloadBus)
     } else {
       this.stops = this.$store.getters["stops/getAllStops"]
     }
-
 
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === "stops/setStopsToState") {
