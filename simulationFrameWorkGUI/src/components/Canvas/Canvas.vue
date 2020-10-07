@@ -8,7 +8,7 @@
         <mapC></mapC>
       </v-col>
       <v-col cols="12" sm="8" md="4">
-        <play-button></play-button>
+        <side-variables></side-variables>
       </v-col>
     </v-row>
   </v-app>
@@ -16,14 +16,14 @@
 <script>
 import sideBar from "../SideMenu/SideMenu";
 import mapC from "../Map/mapCanvas";
-import playButton from "../Buttons/PlayButton";
+import sideVariables from "../SideVaribles/SideVariables";
 export default {
   name: "Canvas",
   data() {
     return {};
   },
   components: {
-    "play-button": playButton,
+    "side-variables": sideVariables,
     sideBar,
     mapC,
   },
