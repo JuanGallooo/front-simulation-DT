@@ -40,8 +40,8 @@ function get(id){
 * @param {numbre} id the id of the item
 * @param {Object} itemInfo the new Item information
 */
-function put(id, itemInfo){
-    return axios.put(this.baseRoute+"/"+id, itemInfo);
+function put(url, method="put", data={}, params={}){
+    return axios.request({url: this.baseRoute+url, method, data, params});
 }
 
 /**
