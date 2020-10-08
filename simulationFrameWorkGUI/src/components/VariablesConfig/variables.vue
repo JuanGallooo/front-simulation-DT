@@ -23,13 +23,12 @@
 
                   </div>
                 </v-radio-group>
-
             </v-row>
 
             <v-row align="center" justify="center">
               <v-col align="center" cols="12" md="6" sm="6">
                 <div class="my-3">
-                  <v-btn color="primary" router :to="{path:'/canvas'}">Next</v-btn>
+                  <v-btn @click="setHeaders" color="primary" router> Next</v-btn>
                 </div>
                 <div class="my-3">
                   <v-btn color="primary" router :to="{path:'/newproject'}">Go Back</v-btn>
@@ -71,14 +70,24 @@ export default {
     })
   },
 
-  mounted: function (){
-
-  },
-
   methods: {
-    loadAllVariables: function (event){
 
+    loadAllVariables: function (event){
       this.$store.dispatch('variables/loadAllVariables',payload)
+    },
+
+    setHeaders: function(){
+      console.log("Entro al metodo setHeaersInBack")
+      let payload= {
+        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        headersSelected: this.itemSelected
+      }
+      console.log(payload)
+      this.$store.dispatch('variables/setVariablesInBack',payload)
+
+
+      //this.$router.push('/canvas');
+
     }
   }
 };

@@ -17,7 +17,19 @@ const actions = {
       .then(res => {
           commit('setVariablesStates',res.data)
       })
+  },
+
+  setVariablesInBack: function({commit}, payload){
+
+    axios.put('/variables/setheaders/'+payload.projectName, payload.headersSelected)
+    .then( res => {
+      console.log(res.data)
+      console.log(res.status)
+    })
+
   }
+
+
 }
 
 //mutations

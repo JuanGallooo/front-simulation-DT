@@ -14,6 +14,7 @@ const BASE_ROUTES={
     projects:"/projects",
     dataSorce:"/datasource",
     simulation:"/simulation",
+    variables:"/variables",
     stops:"/stops"
 }
 
@@ -40,9 +41,11 @@ function get(id){
 * @param {numbre} id the id of the item
 * @param {Object} itemInfo the new Item information
 */
-function put(url, method="put", data={}, params={}){
-    return axios.request({url: this.baseRoute+url, method, data, params});
+
+function put(id, itemInfo){
+  return axios.put(this.baseRoute+"/"+id, itemInfo);
 }
+//axios.request({url: this.baseRoute+url, method, data, params});
 
 /**
 * Make request
@@ -50,7 +53,7 @@ function put(url, method="put", data={}, params={}){
 * @param {String} method HTTP METHOD
 * @param {object} data
 * @param {obect} params URL params
-* @return {Promise} 
+* @return {Promise}
 */
 function request(url, method="get", data={}, params={}){
     return axios.request({url: this.baseRoute+url, method, data, params});
@@ -74,7 +77,7 @@ function post(id,itemInfo){
 /**
 * Remove an item
 * @param {number} id
-* @return {Promise} 
+* @return {Promise}
 */
 function remove(id){
     return axios.delete(this.baseRoute+"/"+id);
