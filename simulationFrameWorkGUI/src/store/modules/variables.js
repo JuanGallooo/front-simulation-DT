@@ -2,12 +2,14 @@ import axios from '../../helpers/api'
 
 // initial state
 const state ={
-  variables:[]
+  variables:[],
+  customVariables:[]
 }
 
 // Getters
 const getters={
   getAllVariables: state => state.variables,
+  getAllCustomVariables: state => state.customVariables,
 }
 
 // Actions
@@ -18,9 +20,14 @@ const actions = {
           commit('setVariablesStates',res.data)
       })
   },
-
+  loadCustomVariables: function({commit},payload){
+    axios.request({url:'/variables/load',data:null, params: payload})
+    .then(res => {
+        console.log(res.data)
+        commit('setCustomVariables',res.data)
+    })
+  },
   setVariablesInBack: function({commit}, payload){
-
     axios.put('/variables/setheaders/'+payload.projectName, payload.headersSelected)
     .then( res => {
       console.log(res.data)
@@ -28,6 +35,7 @@ const actions = {
     })
 
   }
+  
 
 
 }
@@ -35,7 +43,10 @@ const actions = {
 //mutations
 const mutations={
   setVariablesStates(state, variables){
-      state.variables= variables
+    state.variables= variables
+  },
+  setCustomVariables(state, customVariables){
+    state.customVariables= customVariables
   }
 }
 

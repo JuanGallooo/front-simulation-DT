@@ -48,7 +48,7 @@
 
     <v-data-table
       :headers="headers"
-      :items="desserts"
+      :items="variables"
       :items-per-page="5"
       item-key="name"
       class="elevation-1"
@@ -86,55 +86,12 @@ export default {
         {
           text: "Variables",
           align: "start",
-          value: "name",
+          value: "header",
         },
         { text: "Values", value: "value" },
       ],
-      planversions:[
-        
-      ],
-      desserts: [
-        {
-          name: "Frozen Yogurt",
-          value: "Ice cream",
-        },
-        {
-          name: "Ice cream sandwich",
-          value: "Ice cream",
-        },
-        {
-          name: "Eclair",
-          value: "Cookie",
-        },
-        {
-          name: "Cupcake",
-          value: "Pastry",
-        },
-        {
-          name: "Gingerbread",
-          value: "Cookie",
-        },
-        {
-          name: "Jelly bean",
-          value: "Candy",
-        },
-        {
-          name: "Lollipop",
-          value: "Candy",
-        },
-        {
-          name: "Honeycomb",
-          value: "Toffee",
-        },
-        {
-          name: "Donut",
-          value: "Pastry",
-        },
-        {
-          name: "KitKat",
-          value: "Candy",
-        },
-      ],
+      planversions:[],
+      variables: [],
     };
   },
   methods: {
@@ -152,12 +109,26 @@ export default {
       this.$store.dispatch('projects/loadPlanVersions',payload)
     }else{
       this.planversions=this.$store.getters['projects/getAllPlanVersions']
-        console.log(this.planversionID)
+    }
+    if(this.$store.getters['variables/getAllCustomVariables'].length==0){
+        let payload= {
+          projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        }
+        this.$store.dispatch('variables/loadCustomVariables',payload)
+    }
+    else{
+      this.variables=this.$store.getters['variables/getAllCustomVariables']
+      console.log("Nada")
+      console.log(this.variables)
     }
     this.$store.subscribe( (mutation, state) => {
       if (mutation.type === 'projects/setPlanVersions') {
         this.planversions=this.$store.getters['projects/getAllPlanVersions']
-        console.log(this.planversions)
+      } 
+      if (mutation.type === 'variables/setCustomVariables') {
+        this.variables=this.$store.getters['variables/getAllCustomVariables']
+        console.log("Nada")
+        console.log(this.variables)
       }
 
     })
