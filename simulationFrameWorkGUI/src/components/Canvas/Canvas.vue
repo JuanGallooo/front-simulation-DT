@@ -28,15 +28,15 @@ export default {
     mapC,
   },
   created() {
-    window.bus.$on("menu/toggle", () => {
-      window.setTimeout(() => {
-        this.isOpenMobileMenu = !this.isOpenMobileMenu;
-      }, 200);
-    });
+    // window.bus.$on("menu/toggle", () => {
+    //   window.setTimeout(() => {
+    //     this.isOpenMobileMenu = !this.isOpenMobileMenu;
+    //   }, 200);
+    // });
 
-    window.bus.$on("menu/closeMobileMenu", () => {
-      this.isOpenMobileMenu = false;
-    });
+    // window.bus.$on("menu/closeMobileMenu", () => {
+    //   this.isOpenMobileMenu = false;
+    // });
   },
 };
 </script>

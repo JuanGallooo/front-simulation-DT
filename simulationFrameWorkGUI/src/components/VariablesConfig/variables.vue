@@ -77,16 +77,14 @@ export default {
     },
 
     setHeaders: function(){
-      console.log("Entro al metodo setHeaersInBack")
+      // console.log("Entro al metodo setHeaersInBack")
       let payload= {
         projectName: this.$store.getters["projects/getProjectNameSeleted"],
         headersSelected: this.itemSelected
       }
-      console.log(payload)
+      // console.log(payload)
       this.$store.dispatch('variables/setVariablesInBack',payload)
-
-
-      //this.$router.push('/canvas');
+      this.$router.push('/canvas');
 
     }
   }

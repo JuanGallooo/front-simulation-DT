@@ -23,15 +23,13 @@ const actions = {
   loadCustomVariables: function({commit},payload){
     axios.request({url:'/variables/load',data:null, params: payload})
     .then(res => {
-        console.log(res.data)
         commit('setCustomVariables',res.data)
     })
   },
   setVariablesInBack: function({commit}, payload){
     axios.put('/variables/setheaders/'+payload.projectName, payload.headersSelected)
     .then( res => {
-      console.log(res.data)
-      console.log(res.status)
+      console.log("Variables cambiadas")
     })
 
   }

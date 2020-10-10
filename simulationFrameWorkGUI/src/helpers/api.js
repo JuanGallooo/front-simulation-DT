@@ -15,7 +15,8 @@ const BASE_ROUTES={
     dataSorce:"/datasource",
     simulation:"/simulation",
     variables:"/variables",
-    stops:"/stops"
+    stops:"/stops",
+    clock:"/clock"
 }
 
 

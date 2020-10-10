@@ -16,7 +16,7 @@ const actions = {
         axios.request({url: '/datasource/stops',data:null, params: payload})
         .then(res => {
             commit('setStopsToState',res.data)
-            console.log(res.data)
+            // console.log(res.data)
         })
     }
 }

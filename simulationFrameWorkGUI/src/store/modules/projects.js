@@ -61,11 +61,11 @@ const actions = {
 const mutations = {
   setPlanversionSeleted(state, planversionSeleted){
     state.planversionSeleted = planversionSeleted
-    console.log("Entro projectNameSeleted")
+    // console.log("Entro projectNameSeleted")
   },
   setProjectNameSeleted(state, projectNameSelected){
     state.projectNameSelected = projectNameSelected
-    console.log("Entro projectNameSeleted")
+    // console.log("Entro projectNameSeleted")
   },
   setTypeSelected(state, typeSelected){
     state.typeSelected = typeSelected

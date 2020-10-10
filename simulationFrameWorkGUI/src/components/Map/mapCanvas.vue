@@ -26,34 +26,8 @@ export default {
   },
 
   mounted: function(){
-
     this.initMap();
-
-
-    let payload = {
-      type: this.$store.getters['projects/getTypeSelected'],
-      planVersionId: this.$store.getters['projects/getPlanversionSeleted'],
-      lineId: 131
-    };
-    console.log(payload)
-
-    if (this.$store.getters["stops/getAllStops"].length == 0) {
-      this.$store.dispatch("stops/loadStops", payload)
-    } else {
-      this.stops = this.$store.getters["stops/getAllStops"]
-    }
-
-    let payloadBus = {
-      projectName: this.$store.getters["projects/getProjectNameSeleted"]
-    }
-    console.log(payloadBus)
-
-    if (this.$store.getters["buses/getAllBuses"].length==0) {
-      this.$store.dispatch("buses/loadBuses", payloadBus)
-    } else {
-      this.buses = this.$store.getters["buses/getAllBuses"]
-    }
-
+    
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === "stops/setStopsToState") {
         this.stops = this.$store.getters["stops/getAllStops"]
@@ -61,7 +35,7 @@ export default {
       }
       if (mutation.type === "buses/setBusesToState"){
         this.buses = this.$store.getters["buses/getAllBuses"]
-        console.log(this.buses)
+        // console.log(this.buses)
         this.initBuses();
       }
     })
