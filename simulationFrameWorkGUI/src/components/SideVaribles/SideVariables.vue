@@ -138,7 +138,7 @@ export default {
       },1001-(this.sliderTwo*10));
     },
     updateBuses: function () {
-      let payloadBus = {s
+      let payloadBus = {
         projectName: this.$store.getters["projects/getProjectNameSeleted"],
       };
       this.$store.dispatch("buses/loadBuses", payloadBus);
