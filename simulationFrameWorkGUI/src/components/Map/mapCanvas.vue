@@ -27,7 +27,7 @@ export default {
 
   mounted: function(){
     this.initMap();
-    
+
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === "stops/setStopsToState") {
         this.stops = this.$store.getters["stops/getAllStops"]
@@ -36,7 +36,8 @@ export default {
       if (mutation.type === "buses/setBusesToState"){
         this.buses = this.$store.getters["buses/getAllBuses"]
         // console.log(this.buses)
-        this.initBuses();
+        var markers = {};
+        this.initBuses(markers);
       }
     })
 
@@ -67,8 +68,7 @@ export default {
     },
 
 
-    initBuses(){
-      var markers = {};
+    initBuses(markers){
 
       this.buses.forEach((bus) => {
         let coords = [bus.latitude, bus.longitude];

@@ -163,8 +163,8 @@ export default {
     },
     planversionID: [],
     filesOnServer: [],
-    initialDate: new Date().toISOString().substr(0, 7),
-    finalDate: new Date().toISOString().substr(0, 7),
+    initialDate: "",
+    finalDate: "",
     initialMenu: false,
     finalMenu: false,
     InitialTimePicker: null,
@@ -192,10 +192,12 @@ export default {
         this.planversionID=this.$store.getters['projects/getAllPlanVersions']
       }
       if( mutation.type === 'projects/setInitialDate'){
+
         this.initialDate= this.$store.getters['projects/getInitialDate']
       }
       if( mutation.type === 'projects/setFinalDate'){
         this.finalDate= this.$store.getters['projects/getLastDate']
+
       }
     })
   },
@@ -225,13 +227,15 @@ export default {
     saveProject: function(){
       let payload={
         name: this.project.name,
-        initialDate: this.initialDate,
-        finalDate: this.finalDate,
+        initialDate: this.initialDate+" "+this.InitialTimePicker+":00",
+        finalDate: this.finalDate+" "+this.FinalTimePicker+":00",
         planVersionId: this.planVersionSelected,
         fileType: "",
         fileName: this.archiveSelected,
         fileSplit: this.separator
       }
+      console.log(payload.finalDate)
+      console.log(payload.initialDate)
 
       this.$store.commit('projects/setProjectNameSeleted', this.project.name)
       this.$store.commit('projects/setPlanversionSeleted', this.planVersionSelected)
