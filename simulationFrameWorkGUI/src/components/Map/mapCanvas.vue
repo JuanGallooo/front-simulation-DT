@@ -21,23 +21,27 @@ export default {
       map: null,
       tileLayer: null,
       stops: [],
-      buses: []
+      buses: [],
+      layerGroupStops: null,
+      layerGroupBuses: null,
+      markers: {},
     };
   },
 
   mounted: function(){
     this.initMap();
 
+
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === "stops/setStopsToState") {
         this.stops = this.$store.getters["stops/getAllStops"]
+        this.layerGroupStops = L.layerGroup().addTo(this.map);
         this.initStops();
       }
       if (mutation.type === "buses/setBusesToState"){
         this.buses = this.$store.getters["buses/getAllBuses"]
-        // console.log(this.buses)
-        var markers = {};
-        this.initBuses(markers);
+        this.layerGroupBuses = L.layerGroup().addTo(this.map);
+        this.initBuses();
       }
     })
 
@@ -62,24 +66,24 @@ export default {
     initStops() {
       this.stops.forEach((stop) => {
         let coords = [stop.decimalLatitude, stop.decimalLongitude];
-        var stopIcon = L.icon({iconUrl: imageStop,iconSize:[20, 20],iconAnchor:[20, 20],popupAnchor:[0, 0]})
-        stop.leafletObject = L.marker(coords, {icon: stopIcon}).bindPopup(stop.longName).addTo(this.map);
+        var stopIcon = L.icon({iconUrl: imageStop,iconSize:[20, 20],iconAnchor:[20, 20],popupAnchor:[0, 0]});
+        L.marker(coords, {icon: stopIcon}).bindPopup(stop.longName).addTo(this.layerGroupStops);
       });
     },
 
 
-    initBuses(markers){
+    initBuses(){
 
       this.buses.forEach((bus) => {
         let coords = [bus.latitude, bus.longitude];
         var busIcon = L.icon({iconUrl: imageBus,iconSize:[20, 20],iconAnchor:[20, 20],popupAnchor:[0, 0]})
 
-        if(markers[bus.busId]==null){
-            markers[bus.busId] = L.marker(coords).addTo(this.map)
-            markers[bus.busId].setIcon(busIcon);
+        if(this.markers[bus.busId]==null){
+          this.markers[bus.busId] = L.marker(coords).addTo(this.layerGroupBuses)
+            this.markers[bus.busId].setIcon(busIcon);
         }else{
-            markers[bus.busId].setIcon(busIcon);
-            markers[bus.busId].setLatLng(coords);
+          this.markers[bus.busId].setIcon(busIcon);
+            this.markers[bus.busId].setLatLng(coords);
         }
       })
     },
