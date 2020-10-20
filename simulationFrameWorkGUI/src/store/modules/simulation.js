@@ -19,13 +19,13 @@ const actions = {
             })
     },
     pauseSimulation: function ({ commit }, payload) {
-        axios.put('/controller/pause/' + payload.projectName)
+        await axios.put('/controller/pause/' + payload.projectName)
             .then(res => {
                 console.log("Pause simulation")
             })
     },
     resumeSimulation: function ({ commit }, payload) {
-        axios.put('/controller/resume/' + payload.projectName)
+        await axios.put('/controller/resume/' + payload.projectName)
             .then(res => {
                 console.log("Resume simulation")
             })

@@ -160,16 +160,23 @@ export default {
       let payload = {
         projectName: this.$store.getters["projects/getProjectNameSeleted"],
       };
+
+      this.$store.dispatch("simulation/pauseSimulation", payload);
       if (this.slider == 10) {
         this.$store.dispatch("clock/setOneToOneSpeed", payload);
+        this.$store.dispatch("simulation/resumeSimulation", payload);
       } else if (this.slider == 20) {
         this.$store.dispatch("clock/setOneToFiveSpeed", payload);
+        this.$store.dispatch("simulation/resumeSimulation", payload);
       } else if (this.slider == 30) {
         this.$store.dispatch("clock/setOneToTenSpeed", payload);
+        this.$store.dispatch("simulation/resumeSimulation", payload);
       } else if (this.slider == 40) {
         this.$store.dispatch("clock/setOneToThirtySpeed", payload);
+        this.$store.dispatch("simulation/resumeSimulation", payload);
       } else {
         this.$store.dispatch("clock/setOneToSixtySpeed", payload);
+
       }
     },
     changeSimulationSpeed: function () {
