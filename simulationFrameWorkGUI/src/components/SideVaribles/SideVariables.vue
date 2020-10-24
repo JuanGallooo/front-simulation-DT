@@ -43,9 +43,14 @@
       <v-col cols="6" justify="left"> Simulation speed </v-col>
       <v-col cols="6" justify="left">
         <v-slider
-          v-model="sliderTwo"
+          v-model="slider"
           v-on:change="changeSimulationSpeed"
           thumb-label="always"
+          step="10"
+          min="10"
+          max="30"
+          ticks="always"
+          tick-size="4"
         ></v-slider>
       </v-col>
     </v-row>
@@ -108,6 +113,7 @@ export default {
       lines: [],
       variables: [],
       inter: null,
+      firstPlay:false
     };
   },
   methods: {
@@ -135,7 +141,7 @@ export default {
       this.$store.dispatch("simulation/startSimulation", payloadStart);
       this.inter = setInterval(() => {
         this.updateBuses();
-      },1001-(this.sliderTwo*10));
+      },500);
     },
     updateBuses: function () {
       let payloadBus = {
@@ -145,14 +151,30 @@ export default {
     },
     pause: function () {
       clearInterval(this.inter);
+      let payloadLine = {
+            projectName: this.$store.getters["projects/getProjectNameSeleted"],
+      };
+      this.$store.dispatch("simulation/pauseSimulation", payloadLine);
     },
     next: function () {},
     previous: function () {},
     togglePlayPause: function () {
-      if (!this.isPlaying) {
+      if(!this.firstPlay && !this.isPlaying){
+        this.firstPlay= true
         this.play();
-      } else {
-        this.pause();
+      }
+      else{
+        if (!this.isPlaying) {
+          let payloadLine = {
+            projectName: this.$store.getters["projects/getProjectNameSeleted"],
+          };
+          this.$store.dispatch("simulation/resumeSimulation", payloadLine);
+          this.inter = setInterval(() => {
+            this.updateBuses();
+          },500);
+        }else {
+          this.pause();
+        }
       }
       this.isPlaying = !this.isPlaying;
     },
@@ -172,11 +194,19 @@ export default {
         this.$store.dispatch("clock/setOneToThirtySpeed", payload);
       } else {
         this.$store.dispatch("clock/setOneToSixtySpeed", payload);
-
       }
     },
     changeSimulationSpeed: function () {
-      console.log(this.sliderTwo);
+      let payload = {
+        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+      };
+      if (this.slider == 10) {
+        this.$store.dispatch("simulation/setSLow", payload);
+      } else if (this.slider == 20) {
+        this.$store.dispatch("simulation/setNormal", payload);
+      } else if (this.slider == 30) {
+        this.$store.dispatch("simulation/setFast", payload);
+      }
     },
   },
   mounted: function () {

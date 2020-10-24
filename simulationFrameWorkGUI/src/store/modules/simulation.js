@@ -41,7 +41,26 @@ const actions = {
             .then(res => {
                 console.log("Line set simulation")
             })
-    }
+    },
+    setSLow: function ({ commit }, payload) {
+        axios.put('/project/setslow/' + payload.projectName + '/' + payload.lineId)
+            .then(res => {
+                console.log("Set simulation slow")
+            })
+    },
+    setNormal: function ({ commit }, payload) {
+        axios.put('/project/setnormal/' + payload.projectName + '/' + payload.lineId)
+            .then(res => {
+                console.log("Set simulation normal")
+            })
+    },
+    setFast: function ({ commit }, payload) {
+        axios.put('/project/setfast/' + payload.projectName + '/' + payload.lineId)
+            .then(res => {
+                console.log("Set simulation fast")
+            })
+    },
+    
 }
 
 //mutations
