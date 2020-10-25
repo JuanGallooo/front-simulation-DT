@@ -43,19 +43,19 @@ const actions = {
             })
     },
     setSLow: function ({ commit }, payload) {
-        axios.put('/project/setslow/' + payload.projectName + '/' + payload.lineId)
+        axios.put('/clock/setslow/' + payload.projectName)
             .then(res => {
                 console.log("Set simulation slow")
             })
     },
     setNormal: function ({ commit }, payload) {
-        axios.put('/project/setnormal/' + payload.projectName + '/' + payload.lineId)
+        axios.put('/clock/setnormal/' + payload.projectName)
             .then(res => {
                 console.log("Set simulation normal")
             })
     },
     setFast: function ({ commit }, payload) {
-        axios.put('/project/setfast/' + payload.projectName + '/' + payload.lineId)
+        axios.put('/clock/setfast/' + payload.projectName)
             .then(res => {
                 console.log("Set simulation fast")
             })

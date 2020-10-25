@@ -43,7 +43,7 @@
       <v-col cols="6" justify="left"> Simulation speed </v-col>
       <v-col cols="6" justify="left">
         <v-slider
-          v-model="slider"
+          v-model="sliderTwo"
           v-on:change="changeSimulationSpeed"
           thumb-label="always"
           step="10"
@@ -89,8 +89,8 @@ export default {
   data() {
     return {
       lineSelected: [],
-      slider: 45,
-      sliderTwo: 45,
+      slider: 30,
+      sliderTwo: 20,
       getNowPlayingStatus: {
         isLoading: false,
       },
@@ -200,11 +200,11 @@ export default {
       let payload = {
         projectName: this.$store.getters["projects/getProjectNameSeleted"],
       };
-      if (this.slider == 10) {
+      if (this.sliderTwo == 10) {
         this.$store.dispatch("simulation/setSLow", payload);
-      } else if (this.slider == 20) {
+      } else if (this.sliderTwo == 20) {
         this.$store.dispatch("simulation/setNormal", payload);
-      } else if (this.slider == 30) {
+      } else if (this.sliderTwo == 30) {
         this.$store.dispatch("simulation/setFast", payload);
       }
     },
