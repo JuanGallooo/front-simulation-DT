@@ -141,6 +141,9 @@ export default {
       this.$store.dispatch("simulation/startSimulation", payloadStart);
       this.inter = setInterval(() => {
         this.updateBuses();
+
+        this.variables = this.$store.getters["variables/getAllCustomVariables"];
+        this.$store.dispatch("variables/loadCustomVariables", payloadStart);
       },500);
     },
     updateBuses: function () {
@@ -171,6 +174,8 @@ export default {
           this.$store.dispatch("simulation/resumeSimulation", payloadLine);
           this.inter = setInterval(() => {
             this.updateBuses();
+            this.$store.dispatch("variables/loadCustomVariables", payloadLine);
+            this.variables = this.$store.getters["variables/getAllCustomVariables"];
           },500);
         }else {
           this.pause();

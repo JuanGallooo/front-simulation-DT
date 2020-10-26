@@ -17,7 +17,6 @@ const actions = {
     axios.request({ url: '/system/buses', data: null, params: payload })
       .then(res => {
         commit('setBusesToState', res.data)
-        console.log(res.data)
       })
   }
 }
