@@ -229,7 +229,7 @@ export default {
         name: this.project.name,
         initialDate: this.initialDate+" "+this.InitialTimePicker+":00",
         finalDate: this.finalDate+" "+this.FinalTimePicker+":00",
-        planVersionId: this.planVersionSelected,
+        // planVersionId: this.planVersionSelected,
         fileType: "",
         fileName: this.archiveSelected,
         fileSplit: this.separator
@@ -238,7 +238,7 @@ export default {
       console.log(payload.initialDate)
 
       this.$store.commit('projects/setProjectNameSeleted', this.project.name)
-      this.$store.commit('projects/setPlanversionSeleted', this.planVersionSelected)
+      // this.$store.commit('projects/setPlanversionSeleted', this.planVersionSelected)
 
       if(this.project.fuente=== "CSV"){
         payload.fileType= "FileCSV"
