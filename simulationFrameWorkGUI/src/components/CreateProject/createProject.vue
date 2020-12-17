@@ -67,11 +67,11 @@
                     </v-col>
                   </v-row>
                 </v-form>
-                <v-row>
+                <!-- <v-row>
                   <v-col cols="12" align="center" justify="center" v-if="archiveSelected!='' || project.fuente=='Oracle'">
                     <v-select :items="planversionID" label="PlanVersion ID" v-model="planVersionSelected" item-text="planVersionId"  @change="loadDatesByPlanVersion"></v-select>
                   </v-col>
-                </v-row>
+                </v-row> -->
                 <v-row>
                   <v-col cols="6" align="center" justify="center">
                     <v-menu
