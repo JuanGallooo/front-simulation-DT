@@ -72,13 +72,12 @@
       :items-per-page="5"
       item-key="Values"
       class="elevation-1"
-
       :footer-props="{
         showFirstLastPage: true,
         firstIcon: 'mdi-arrow-collapse-left',
         lastIcon: 'mdi-arrow-collapse-right',
         prevIcon: 'mdi-minus',
-        nextIcon: 'mdi-plus',
+        nextIcon: 'mdi-plus'
       }"
     ></v-data-table>
   </div>
@@ -92,36 +91,36 @@ export default {
       slider: 30,
       sliderTwo: 20,
       getNowPlayingStatus: {
-        isLoading: false,
+        isLoading: false
       },
       fakeLoading: false,
       isPlaying: false,
       headersLines: [
         {
           text: "Ids",
-          value: "lineId",
+          value: "lineId"
         },
-        { text: "Nombre", value: "shortName" },
+        { text: "Nombre", value: "shortName" }
       ],
       headers: [
         {
           text: "Variables",
-          value: "header",
+          value: "header"
         },
-        { text: "Values", value: "value" },
+        { text: "Values", value: "value" }
       ],
       lines: [],
       variables: [],
       inter: null,
-      firstPlay:false
+      firstPlay: false
     };
   },
   methods: {
-    play: function () {
+    play: function() {
       console.log("Llamando a empezar");
       let payloadLine = {
         projectName: this.$store.getters["projects/getProjectNameSeleted"],
-        lineId: this.lineSelected[0].lineId,
+        lineId: this.lineSelected[0].lineId
       };
       console.log("Payload lines");
       console.log(payloadLine);
@@ -130,63 +129,53 @@ export default {
       let payload = {
         type: this.$store.getters["projects/getTypeSelected"],
         planVersionId: this.$store.getters["projects/getPlanversionSeleted"],
-        lineId: this.lineSelected[0].lineId,
+        lineId: this.lineSelected[0].lineId
       };
 
       this.$store.dispatch("stops/loadStops", payload);
-
-      let payloadStart = {
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
-      };
-      this.$store.dispatch("simulation/startSimulation", payloadStart);
-      this.inter = setInterval(() => {
-        this.updateBuses();
-
-        this.variables = this.$store.getters["variables/getAllCustomVariables"];
-        this.$store.dispatch("variables/loadCustomVariables", payloadStart);
-      },500);
     },
-    updateBuses: function () {
+    updateBuses: function() {
       let payloadBus = {
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$store.getters["projects/getProjectNameSeleted"]
       };
       this.$store.dispatch("buses/loadBuses", payloadBus);
     },
-    pause: function () {
+    pause: function() {
       clearInterval(this.inter);
       let payloadLine = {
-            projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$store.getters["projects/getProjectNameSeleted"]
       };
       this.$store.dispatch("simulation/pauseSimulation", payloadLine);
     },
-    next: function () {},
-    previous: function () {},
-    togglePlayPause: function () {
-      if(!this.firstPlay && !this.isPlaying){
-        this.firstPlay= true
+    next: function() {},
+    previous: function() {},
+    togglePlayPause: function() {
+      if (!this.firstPlay && !this.isPlaying) {
+        this.firstPlay = true;
         this.play();
-      }
-      else{
+      } else {
         if (!this.isPlaying) {
           let payloadLine = {
-            projectName: this.$store.getters["projects/getProjectNameSeleted"],
+            projectName: this.$store.getters["projects/getProjectNameSeleted"]
           };
           this.$store.dispatch("simulation/resumeSimulation", payloadLine);
           this.inter = setInterval(() => {
             this.updateBuses();
             this.$store.dispatch("variables/loadCustomVariables", payloadLine);
-            this.variables = this.$store.getters["variables/getAllCustomVariables"];
-          },500);
-        }else {
+            this.variables = this.$store.getters[
+              "variables/getAllCustomVariables"
+            ];
+          }, 500);
+        } else {
           this.pause();
         }
       }
       this.isPlaying = !this.isPlaying;
     },
 
-    changeReadSpeed: function () {
+    changeReadSpeed: function() {
       let payload = {
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$store.getters["projects/getProjectNameSeleted"]
       };
 
       if (this.slider == 10) {
@@ -201,9 +190,9 @@ export default {
         this.$store.dispatch("clock/setOneToSixtySpeed", payload);
       }
     },
-    changeSimulationSpeed: function () {
+    changeSimulationSpeed: function() {
       let payload = {
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$store.getters["projects/getProjectNameSeleted"]
       };
       if (this.sliderTwo == 10) {
         this.$store.dispatch("simulation/setSLow", payload);
@@ -212,13 +201,13 @@ export default {
       } else if (this.sliderTwo == 30) {
         this.$store.dispatch("simulation/setFast", payload);
       }
-    },
+    }
   },
-  mounted: function () {
+  mounted: function() {
     if (this.$store.getters["lines/getAllLines"].length == 0) {
       let payload = {
         type: "FileCSV",
-        planVersionId: this.$store.getters["projects/getPlanversionSeleted"],
+        planVersionId: this.$store.getters["projects/getPlanversionSeleted"]
       };
       // console.log("Payload para las lineas");
       // console.log(payload);
@@ -228,7 +217,7 @@ export default {
     }
     if (this.$store.getters["variables/getAllCustomVariables"].length == 0) {
       let payload = {
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$store.getters["projects/getProjectNameSeleted"]
       };
       this.$store.dispatch("variables/loadCustomVariables", payload);
     } else {
@@ -241,11 +230,24 @@ export default {
       if (mutation.type === "variables/setCustomVariables") {
         this.variables = this.$store.getters["variables/getAllCustomVariables"];
       }
+      if (mutation.type === "simulation/setSetline") {
+        let payloadStart = {
+          projectName: this.$store.getters["projects/getProjectNameSeleted"]
+        };
+        this.$store.dispatch("simulation/startSimulation", payloadStart);
+        this.inter = setInterval(() => {
+          this.updateBuses();
+
+          this.variables = this.$store.getters[
+            "variables/getAllCustomVariables"
+          ];
+          this.$store.dispatch("variables/loadCustomVariables", payloadStart);
+        }, 500);
+      }
     });
   },
-  computed: {},
+  computed: {}
 };
 </script>
 
-<style>
-</style>
+<style></style>
