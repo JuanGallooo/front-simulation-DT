@@ -41,18 +41,19 @@ const actions = {
       .then(res => {
         commit('setInitialDate', res.data[0])
         commit('setFinalDate', res.data[1])
+
       })
   },
   createProjectCSV: function ({ commit }, payload) {
     axios.post('project/save', payload)
       .then(res => {
-        console.log(res.data)
+        commit('setPlanversionSeleted', res.data)
       })
   },
   createProjectOracle: function ({ commit }, payload) {
     axios.post('project/save/oracle', payload)
       .then(res => {
-        console.log(res.data)
+        commit('setPlanversionSeleted', res.data)
       })
   }
 }
