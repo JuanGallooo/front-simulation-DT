@@ -3,13 +3,11 @@ import axios from '../../helpers/api'
 // initial state
 const state = {
     start: false,
-    setLine: false,
 }
 
 // Getters
 const getters = {
-    getStart: state => state.start,
-    getSetLine: state => state.setLine
+    getStart: state => state.start
 }
 
 // Actions
@@ -42,7 +40,6 @@ const actions = {
         axios.put('/project/setline/' + payload.projectName + '/' + payload.lineId)
             .then(res => {
                 console.log("Line set simulation")
-                commit('setSetline', true)
             })
     },
     setSLow: function ({ commit }, payload) {
@@ -63,16 +60,13 @@ const actions = {
                 console.log("Set simulation fast")
             })
     },
-
+    
 }
 
 //mutations
 const mutations = {
     setLinesToState(state, lines) {
         state.lines = lines
-    },
-    setSetline(state, line) {
-      state.setLine = line
     },
 }
 
