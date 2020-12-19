@@ -53,9 +53,13 @@ export default {
 
   created: function(){
 
+    // let payload = {
+    //   projectName: this.$store.getters['projects/getProjectNameSeleted']
+    // }
     let payload = {
-      projectName: this.$store.getters['projects/getProjectNameSeleted']
+      projectName: this.$route.params.name
     }
+
 
     if(this.$store.getters['variables/getAllVariables'].length==0){
       this.$store.dispatch('variables/loadAllVariables',payload)
@@ -78,14 +82,24 @@ export default {
 
     setHeaders: function(){
       // console.log("Entro al metodo setHeaersInBack")
+      // let payload= {
+      //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
+      //   headersSelected: this.itemSelected
+      // }
       let payload= {
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$route.params.name,
         headersSelected: this.itemSelected
       }
+
+      this.$route.params.id
       // console.log(payload)
       this.$store.dispatch('variables/setVariablesInBack',payload)
-      this.$router.push('/canvas');
-
+      console.log(this.$route.query.planversion)
+      console.log(this.$route.query.type)
+      this.$router.push({
+          path: `/canvas/${this.$route.params.name}`,
+          query: { planversion: this.$route.query.planversion,  type: this.$route.query.type  }
+      });
     }
   }
 };

@@ -197,7 +197,12 @@ export default {
       }
       if( mutation.type === 'projects/setFinalDate'){
         this.finalDate= this.$store.getters['projects/getLastDate']
-
+      }
+      if( mutation.type === 'projects/setPlanversionSeleted'){
+        this.$router.push({
+            path: `/variables/${this.project.name}`,
+            query: { planversion: this.$store.getters['projects/getPlanversionSeleted'], type: this.$store.getters['projects/getTypeSelected'] }
+        });
       }
     })
   },
@@ -249,7 +254,6 @@ export default {
         this.$store.commit('projects/setTypeSelected',payload.fileType)
         this.$store.dispatch('projects/createProjectOracle',payload)
       }
-      this.$router.push('/variables');
     },
   },
 };

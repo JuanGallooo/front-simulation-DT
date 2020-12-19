@@ -119,24 +119,36 @@ export default {
   methods: {
     play: function () {
       console.log("Llamando a empezar");
+      // let payloadLine = {
+      //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
+      //   lineId: this.lineSelected[0].lineId,
+      // };
       let payloadLine = {
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$route.params.name,
         lineId: this.lineSelected[0].lineId,
       };
       console.log("Payload lines");
       console.log(payloadLine);
       this.$store.dispatch("simulation/setLine", payloadLine);
 
+      // let payload = {
+      //   type: this.$store.getters["projects/getTypeSelected"],
+      //   planVersionId: this.$store.getters["projects/getPlanversionSeleted"],
+      //   lineId: this.lineSelected[0].lineId,
+      // };
       let payload = {
-        type: this.$store.getters["projects/getTypeSelected"],
-        planVersionId: this.$store.getters["projects/getPlanversionSeleted"],
+        type: this.$route.query.type,
+        planVersionId: this.$route.query.planversion,
         lineId: this.lineSelected[0].lineId,
       };
 
       this.$store.dispatch("stops/loadStops", payload);
 
+      // let payloadStart = {
+      //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
+      // };
       let payloadStart = {
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$route.params.name,
       };
       this.$store.dispatch("simulation/startSimulation", payloadStart);
       this.inter = setInterval(() => {
@@ -147,15 +159,21 @@ export default {
       },500);
     },
     updateBuses: function () {
+      // let payloadBus = {
+      //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
+      // };
       let payloadBus = {
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$route.params.name,
       };
       this.$store.dispatch("buses/loadBuses", payloadBus);
     },
     pause: function () {
       clearInterval(this.inter);
+      // let payloadLine = {
+      //       projectName: this.$store.getters["projects/getProjectNameSeleted"],
+      // };
       let payloadLine = {
-            projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$route.params.name,
       };
       this.$store.dispatch("simulation/pauseSimulation", payloadLine);
     },
@@ -168,8 +186,11 @@ export default {
       }
       else{
         if (!this.isPlaying) {
+          // let payloadLine = {
+          //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
+          // };
           let payloadLine = {
-            projectName: this.$store.getters["projects/getProjectNameSeleted"],
+            projectName: this.$route.params.name,
           };
           this.$store.dispatch("simulation/resumeSimulation", payloadLine);
           this.inter = setInterval(() => {
@@ -185,8 +206,11 @@ export default {
     },
 
     changeReadSpeed: function () {
+      // let payload = {
+      //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
+      // };
       let payload = {
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$route.params.name,
       };
 
       if (this.slider == 10) {
@@ -202,8 +226,11 @@ export default {
       }
     },
     changeSimulationSpeed: function () {
+      // let payload = {
+      //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
+      // };
       let payload = {
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$route.params.name,
       };
       if (this.sliderTwo == 10) {
         this.$store.dispatch("simulation/setSLow", payload);
@@ -216,9 +243,13 @@ export default {
   },
   mounted: function () {
     if (this.$store.getters["lines/getAllLines"].length == 0) {
+      // let payload = {
+      //   type: "FileCSV",
+      //   planVersionId: this.$store.getters["projects/getPlanversionSeleted"],
+      // };
       let payload = {
         type: "FileCSV",
-        planVersionId: this.$store.getters["projects/getPlanversionSeleted"],
+        planVersionId: this.$route.query.planversion,
       };
       // console.log("Payload para las lineas");
       // console.log(payload);
@@ -227,8 +258,11 @@ export default {
       this.lines = this.$store.getters["lines/getAllLines"];
     }
     if (this.$store.getters["variables/getAllCustomVariables"].length == 0) {
+      // let payload = {
+      //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
+      // };
       let payload = {
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$route.params.name,
       };
       this.$store.dispatch("variables/loadCustomVariables", payload);
     } else {

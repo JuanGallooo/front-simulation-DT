@@ -13,8 +13,8 @@ const routes = [
     {path: '/', component: Home },
     {path: '/project', component: Foo},
     {path: '/newproject', component: newProject},
-    {path: '/canvas', component: canvas},
-    {path: '/variables', component: variables},
+    {path: '/canvas/:name', component: canvas},
+    {path: '/variables/:name', component: variables},
 ];
 
 export default new VueRouter({
