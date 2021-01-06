@@ -5,16 +5,20 @@ import colors from 'vuetify/lib/util/colors'
 
 Vue.use(Vuetify)
 
-const opts = {
-    theme: {
-        themes: {
-            light: {
-                primary: '#3D02F3',//colors.red.darken1, // #E53935
-                secondary: '#7709DB', //colors.red.lighten4, // #FFCDD2
-                accent: '090DDB', //colors.indigo.base, // #3F51B5
-            },
-        },
+const vuetify = new Vuetify({
+  theme: {
+    themes: {
+      light: {
+        primary: "3A326B",
+        secondary: colors.grey.darken1,
+        accent: colors.shades.black,
+        error: colors.red.accent3,
+      },
+      dark: {
+        primary: colors.blue.lighten3,
+      },
     },
-}
+  },
+})
 
-export default new Vuetify(opts)
+export default vuetify

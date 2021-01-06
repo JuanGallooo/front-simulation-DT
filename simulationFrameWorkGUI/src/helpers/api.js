@@ -71,9 +71,12 @@ function externalRequest(url, method="get", data={}, params={}){
 * @param {Object} itemInfo the new Item
 * @return {Promise}
 */
-function post(id,itemInfo){
-    return axios.post(this.baseRoute+"/"+id, itemInfo);
+function post(id,itemInfo, headers){
+    return axios.post(this.baseRoute+"/"+id, itemInfo, headers );
 }
+// function post(id,itemInfo){
+//   return axios.post(this.baseRoute+"/"+id, itemInfo);
+// }
 
 /**
 * Remove an item

@@ -1,10 +1,7 @@
 <template>
-
   <div class="menu-container">
-
     <!-- root level itens -->
     <ul class="menu">
-
       <!-- <li class="menu__top">
         <router-link to="/" class="menu__logo">
           <img src="/icon-32.png" alt="icon">
@@ -31,112 +28,109 @@
 
       <li>
         <a
-        href="#"
-        @click.prevent="updateMenu('project')"
-        :class="highlightSection('project')"
+          href="#"
+          @click.prevent="updateMenu('project')"
+          :class="highlightSection('project')"
         >
           <i class="fas fa-folder menu__icon" aria-hidden="true"></i>
           Project &nbsp;
-          <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="false"></i>
+          <i
+            class="fa fa-chevron-right menu__arrow-icon"
+            aria-hidden="false"
+          ></i>
         </a>
       </li>
 
-      <li>
+      <!-- <li>
         <a
-        href="#"
-        @click.prevent="updateMenu('configuration')"
-        :class="highlightSection('configuration')"
+          href="#"
+          @click.prevent="updateMenu('configuration')"
+          :class="highlightSection('configuration')"
         >
           <i class="fas fa-wrench menu__icon" aria-hidden="true"></i>
           Configuration
-          <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="false"></i>
+          <i
+            class="fa fa-chevron-right menu__arrow-icon"
+            aria-hidden="false"
+          ></i>
         </a>
       </li>
 
       <li>
         <a
-        href="#"
-        @click.prevent="updateMenu('analysis')"
-        :class="highlightSection('analysis')"
+          href="#"
+          @click.prevent="updateMenu('analysis')"
+          :class="highlightSection('analysis')"
         >
           <i class="far fa-chart-bar menu__icon" aria-hidden="true"></i>
           Analysis
-          <i class="fa fa-chevron-right menu__arrow-icon" aria-hidden="false"></i>
+          <i
+            class="fa fa-chevron-right menu__arrow-icon"
+            aria-hidden="false"
+          ></i>
         </a>
-      </li>
-
+      </li> -->
     </ul>
 
     <!-- context menu: childs of root level itens -->
     <transition name="slide-fade">
-
       <div class="context-menu-container" v-show="showContextMenu">
-
         <ul class="context-menu">
-
           <li v-for="(item, index) in menuItens" :key="index">
-
             <h5 v-if="item.type === 'title'" class="context-menu__title">
-
               <i :class="item.icon" aria-hidden="true"></i>
 
-              {{item.txt}}
+              {{ item.txt }}
 
               <a
-              v-if="index === 0"
-              @click.prevent="closeContextMenu"
-              class="context-menu__btn-close"
-              href="#"
+                v-if="index === 0"
+                @click.prevent="closeContextMenu"
+                class="context-menu__btn-close"
+                href="#"
               >
                 <i class="fa fa-window-close" aria-hidden="false"></i>
               </a>
-
             </h5>
 
             <a
-            v-else
-            href="#"
-            @click.prevent="openSection(item)"
-            :class="subMenuClass(item.txt)"
+              v-else
+              href="#"
+              @click.prevent="openSection(item)"
+              :class="subMenuClass(item.txt)"
             >
-              {{item.txt}}
+              {{ item.txt }}
             </a>
-
           </li>
-
         </ul>
-
       </div>
-
     </transition>
-
   </div>
-
 </template>
 
 <script>
-import menuData from './menu-data';
-import kebabCase from 'lodash/kebabCase';
+import menuData from "./menu-data";
+import kebabCase from "lodash/kebabCase";
 
 export default {
-  name: 'Menu',
+  name: "Menu",
 
-  data(){
+  data() {
     return {
-      contextSection: '',
+      contextSection: "",
 
       menuItens: [],
 
       menuData: menuData,
 
-      activeSubMenu: ''
-    }
+      activeSubMenu: ""
+    };
   },
 
   methods: {
-
     openProjectLink() {
-      alert('You could open the project frontend in another tab here, so the logged admin could see changes made to the project ;)');
+      alert(
+        "You could open the project frontend in another tab here, so the logged admin could see changes made to the project ;)"
+      );
     },
 
     updateMenu(context) {
@@ -151,20 +145,20 @@ export default {
 
     highlightSection(section) {
       return {
-        'menu__link': true,
-        'menu__link--active': section === this.contextSection,
+        menu__link: true,
+        "menu__link--active": section === this.contextSection
       };
     },
 
     subMenuClass(subMenuName) {
       return {
-        'context-menu__link': true,
-        'context-menu__link--active': this.activeSubMenu === subMenuName,
+        "context-menu__link": true,
+        "context-menu__link--active": this.activeSubMenu === subMenuName
       };
     },
 
     closeContextMenu() {
-      this.contextSection = '';
+      this.contextSection = "";
       this.menuItens = [];
     },
 
@@ -180,14 +174,12 @@ export default {
 
       return `${item.link}/${sectionSlug}`;
     }
-
   },
 
   computed: {
     showContextMenu() {
       return this.menuItens.length;
-    },
+    }
   }
-
-}
+};
 </script>

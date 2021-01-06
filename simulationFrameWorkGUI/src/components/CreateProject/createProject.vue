@@ -128,10 +128,10 @@
                 </v-row>
                 <v-row justify="space-around" align="center">
                   <v-col cols="6" align="center" justify="center">
-                    <v-time-picker v-model="InitialTimePicker" scrollable></v-time-picker>
+                    <v-time-picker v-model="InitialTimePicker" full-width scrollable class="ml-3"></v-time-picker>
                   </v-col>
                   <v-col cols="6" align="center" justify="center">
-                    <v-time-picker v-model="FinalTimePicker" scrollable></v-time-picker>
+                    <v-time-picker v-model="FinalTimePicker" full-width scrollable class="ml-3"></v-time-picker>
                   </v-col>
                 </v-row>
                 <v-row align="center" justify="center">
@@ -184,6 +184,7 @@ export default {
     }else{
       this.filesOnServer=this.$store.getters['projects/getAllFileNames']
     }
+    this.$store.dispatch('projects/loadAllFilesNames');
     this.$store.subscribe( (mutation, state) => {
       if (mutation.type === 'projects/setFilesNameStates') {
         this.filesOnServer=this.$store.getters['projects/getAllFileNames']
