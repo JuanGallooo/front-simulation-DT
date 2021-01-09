@@ -20,7 +20,7 @@
                   <v-col align="center" cols="12" md="6" sm="6">
                     <div class="my-3">
                       <label v-if="showHandle"
-                        >Please upload the File
+                        >Por favor cargar archivo
                         <input
                           type="file"
                           id="file"
@@ -29,7 +29,7 @@
                         />
                       </label>
                       <v-btn color="primary" block v-on:click="handleFileUpload()"
-                        >Upload Project</v-btn
+                        >Cargar Proyecto</v-btn
                       >
                     </div>
                     <form
@@ -67,9 +67,9 @@
                       <v-btn block
                         color="primary"
                         @click="showSelect= true;"
-                      >On Server</v-btn>
+                      >En servidor</v-btn>
                       <div v-if="showSelect">
-                      <v-select v-if="showSelect" v-model="archiveSelected" :items="filesOnServer" label="Select Archive"></v-select>
+                      <v-select v-if="showSelect" v-model="archiveSelected" :items="filesOnServer" label="Seleccionar Archivo"></v-select>
                       </div>
                     </div>
                     <div class="my-3">
@@ -77,7 +77,7 @@
                         color="primary"
                         router
                         :to="{ path: '/newproject' }"
-                        >Create Project</v-btn
+                        >Crear Proyecto</v-btn
                       >
                     </div>
                   </v-col>

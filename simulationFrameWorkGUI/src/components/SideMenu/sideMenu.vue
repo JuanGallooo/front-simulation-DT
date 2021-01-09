@@ -33,7 +33,7 @@
           :class="highlightSection('project')"
         >
           <i class="fas fa-folder menu__icon" aria-hidden="true"></i>
-          Project &nbsp;
+          Proyecto &nbsp;
           <i
             class="fa fa-chevron-right menu__arrow-icon"
             aria-hidden="false"

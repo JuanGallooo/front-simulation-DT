@@ -25,7 +25,7 @@
       </v-col>
     </v-row>
     <v-row justify="space-around">
-      <v-col cols="6" justify="left"> Read speed </v-col>
+      <v-col cols="6" justify="left"> Velocidad de lectura </v-col>
       <v-col cols="6" justify="left">
         <v-slider
           v-model="slider"
@@ -40,7 +40,7 @@
       </v-col>
     </v-row>
     <v-row justify="space-around">
-      <v-col cols="6" justify="left"> Simulation speed </v-col>
+      <v-col cols="6" justify="left"> Velocidad de animación </v-col>
       <v-col cols="6" justify="left">
         <v-slider
           v-model="sliderTwo"
@@ -108,7 +108,7 @@ export default {
           text: "Variables",
           value: "header",
         },
-        { text: "Values", value: "value" },
+        { text: "Valores", value: "value" },
       ],
       lines: [],
       variables: [],

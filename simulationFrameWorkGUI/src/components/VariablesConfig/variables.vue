@@ -28,10 +28,10 @@
             <v-row align="center" justify="center">
               <v-col align="center" cols="12" md="6" sm="6">
                 <div class="my-3">
-                  <v-btn @click="setHeaders" color="primary" router> Next</v-btn>
+                  <v-btn @click="setHeaders" color="primary" router> Siguiente</v-btn>
                 </div>
                 <div class="my-3">
-                  <v-btn color="primary" router :to="{path:'/newproject'}">Go Back</v-btn>
+                  <v-btn color="primary" router :to="{path:'/newproject'}"> Volver</v-btn>
                 </div>
               </v-col>
             </v-row>

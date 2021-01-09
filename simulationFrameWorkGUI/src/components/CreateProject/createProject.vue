@@ -6,17 +6,17 @@
           <v-col cols="12" sm="8" md="4">
             <v-card class="elevation-12">
               <v-toolbar color="primary" dark flat>
-                <v-toolbar-title>Create Project</v-toolbar-title>
+                <v-toolbar-title>Crear Proyecto</v-toolbar-title>
                 <v-spacer></v-spacer>
               </v-toolbar>
               <v-card-text>
                 <v-form>
 
-                  <v-text-field v-model="project.name" label="Project Name" name="name" type="text"></v-text-field>
-                  <label>Target System</label>
+                  <v-text-field v-model="project.name" label="Nombre del proyecto" name="name" type="text"></v-text-field>
+                  <label>Sistema Objetivo</label>
                   <v-row align="center" justify="center">
                     <v-col cols="4">
-                      <label>Data Source</label>
+                      <label>Fuente de datos</label>
                     </v-col>
                     <v-col cols="4">
                       <input type="radio" id="csv" name="csv" v-model="project.fuente" value="CSV" />
@@ -36,13 +36,13 @@
                   </v-row>
                   <v-row justify="center" v-if="project.fuente=='CSV'">
                     <v-col cols="12">
-                      <label>Upload Datagrams</label>
+                      <label>Cargar Datagramas</label>
                     </v-col>
                     <v-col cols="6">
-                      <v-btn color="primary" @click="showUpload = true; showSelect= false;">By file</v-btn>
+                      <v-btn color="primary" @click="showUpload = true; showSelect= false;">Por archivo</v-btn>
                       <v-row align="center" v-if="showUpload">
                         <v-col cols="6">
-                          <label>Separator</label>
+                          <label>Separador</label>
                         </v-col>
                         <v-col cols="6">
                           <v-text-field v-model="separator"></v-text-field>
@@ -54,16 +54,16 @@
                       <v-btn
                         color="primary"
                         @click="showUpload = false; showSelect= true;"
-                      >On Server</v-btn>
+                      >En servidor</v-btn>
                       <v-row v-if="showSelect" align="center">
                         <v-col cols="6">
-                          <label>Separator</label>
+                          <label>Separador</label>
                         </v-col>
                         <v-col cols="6">
                           <v-text-field v-model="separator"></v-text-field>
                         </v-col>
                       </v-row>
-                      <v-select v-if="showSelect" @change="loadPlanVersionsCSV" v-model="archiveSelected" :items="filesOnServer" label="Select Archive"></v-select>
+                      <v-select v-if="showSelect" @change="loadPlanVersionsCSV" v-model="archiveSelected" :items="filesOnServer" label="Seleccionar Archivo"></v-select>
                     </v-col>
                   </v-row>
                 </v-form>
@@ -86,7 +86,7 @@
                       <template v-slot:activator="{ on, attrs }">
                         <v-text-field
                           v-model="initialDate"
-                          label="Initial Date"
+                          label="Fecha inicial"
                           readonly
                           v-bind="attrs"
                           v-on="on"
@@ -94,8 +94,8 @@
                       </template>
                       <v-date-picker v-model="initialDate" no-title scrollable>
                         <v-spacer></v-spacer>
-                        <v-btn text color="primary" @click="initialMenu = false">Cancel</v-btn>
-                        <v-btn text color="primary" @click="$refs.initialMenu.save(initialDate)">OK</v-btn>
+                        <v-btn text color="primary" @click="initialMenu = false">Cancelar</v-btn>
+                        <v-btn text color="primary" @click="$refs.initialMenu.save(initialDate)">Aceptar</v-btn>
                       </v-date-picker>
                     </v-menu>
                   </v-col>
@@ -112,7 +112,7 @@
                       <template v-slot:activator="{ on, attrs }">
                         <v-text-field
                           v-model="finalDate"
-                          label="Final Date"
+                          label="Fecha final"
                           readonly
                           v-bind="attrs"
                           v-on="on"
@@ -120,8 +120,8 @@
                       </template>
                       <v-date-picker v-model="finalDate" no-title scrollable>
                         <v-spacer></v-spacer>
-                        <v-btn text color="primary" @click="finalMenu = false">Cancel</v-btn>
-                        <v-btn text color="primary" @click="$refs.finalMenu.save(finalDate)">OK</v-btn>
+                        <v-btn text color="primary" @click="finalMenu = false">Cancelar</v-btn>
+                        <v-btn text color="primary" @click="$refs.finalMenu.save(finalDate)">Aceptar</v-btn>
                       </v-date-picker>
                     </v-menu>
                   </v-col>
@@ -137,10 +137,10 @@
                 <v-row align="center" justify="center">
                   <v-col align="center" cols="12" md="6" sm="6">
                     <div class="my-3">
-                      <v-btn color="primary" router  @click="saveProject"  >Create Project</v-btn>
+                      <v-btn color="primary" router  @click="saveProject"  >Crear Proyecto</v-btn>
                     </div>
                     <div class="my-3">
-                      <v-btn color="primary" router :to="{path:'/newproject'}">Go Back</v-btn>
+                      <v-btn color="primary" router :to="{path:'/newproject'}">Volver</v-btn>
                     </div>
                   </v-col>
                 </v-row>
