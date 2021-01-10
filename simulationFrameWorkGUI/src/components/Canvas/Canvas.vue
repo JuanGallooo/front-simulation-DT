@@ -14,14 +14,6 @@
         <side-variables></side-variables>
       </v-col>
     </v-row>
-    <!-- <div style="display:flex; ">
-      <div style="min-width:600px; padding: 0 0 0 120px">
-        <mapC></mapC>
-      </div>
-      <div>
-        <side-variables></side-variables>
-      </div>
-    </div> -->
   </v-app>
 </template>
 <script>
@@ -39,14 +31,6 @@ export default {
     mapC
   },
   created() {
-    // window.bus.$on("menu/toggle", () => {
-    //   window.setTimeout(() => {
-    //     this.isOpenMobileMenu = !this.isOpenMobileMenu;
-    //   }, 200);
-    // });
-    // window.bus.$on("menu/closeMobileMenu", () => {
-    //   this.isOpenMobileMenu = false;
-    // });
   }
 };
 </script>

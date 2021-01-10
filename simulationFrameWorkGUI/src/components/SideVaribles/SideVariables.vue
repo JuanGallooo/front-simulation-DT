@@ -1,6 +1,11 @@
 <template>
   <div>
     <v-row justify="space-around">
+      <div style="display:block;">
+        <h3>Controles</h3>
+      </div>
+    </v-row>
+    <v-row justify="space-around">
       <v-col cols="6" justify="left">
         <div class="play-pause-skip-controls">
           <div
@@ -72,19 +77,20 @@
       :items-per-page="5"
       item-key="Values"
       class="elevation-1"
-
       :footer-props="{
         showFirstLastPage: true,
         firstIcon: 'mdi-arrow-collapse-left',
         lastIcon: 'mdi-arrow-collapse-right',
         prevIcon: 'mdi-minus',
-        nextIcon: 'mdi-plus',
+        nextIcon: 'mdi-plus'
       }"
     ></v-data-table>
   </div>
 </template>
 <script>
+import variables from "../VariablesConfig/variables.vue";
 export default {
+  components: { variables },
   name: "PlayButton",
   data() {
     return {
@@ -92,32 +98,32 @@ export default {
       slider: 30,
       sliderTwo: 20,
       getNowPlayingStatus: {
-        isLoading: false,
+        isLoading: false
       },
       fakeLoading: false,
       isPlaying: false,
       headersLines: [
         {
           text: "Ids",
-          value: "lineId",
+          value: "lineId"
         },
-        { text: "Nombre", value: "shortName" },
+        { text: "Nombre", value: "shortName" }
       ],
       headers: [
         {
           text: "Variables",
-          value: "header",
+          value: "header"
         },
-        { text: "Valores", value: "value" },
+        { text: "Valores", value: "value" }
       ],
       lines: [],
       variables: [],
       inter: null,
-      firstPlay:false
+      firstPlay: false
     };
   },
   methods: {
-    play: function () {
+    play: function() {
       console.log("Llamando a empezar");
       // let payloadLine = {
       //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
@@ -125,10 +131,8 @@ export default {
       // };
       let payloadLine = {
         projectName: this.$route.params.name,
-        lineId: this.lineSelected[0].lineId,
+        lineId: this.lineSelected[0].lineId
       };
-      console.log("Payload lines");
-      console.log(payloadLine);
       this.$store.dispatch("simulation/setLine", payloadLine);
 
       // let payload = {
@@ -139,7 +143,7 @@ export default {
       let payload = {
         type: this.$route.query.type,
         planVersionId: this.$route.query.planversion,
-        lineId: this.lineSelected[0].lineId,
+        lineId: this.lineSelected[0].lineId
       };
 
       this.$store.dispatch("stops/loadStops", payload);
@@ -148,7 +152,7 @@ export default {
       //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
       // };
       let payloadStart = {
-        projectName: this.$route.params.name,
+        projectName: this.$route.params.name
       };
       this.$store.dispatch("simulation/startSimulation", payloadStart);
       this.inter = setInterval(() => {
@@ -156,61 +160,62 @@ export default {
 
         this.variables = this.$store.getters["variables/getAllCustomVariables"];
         this.$store.dispatch("variables/loadCustomVariables", payloadStart);
-      },500);
+      }, 500);
     },
-    updateBuses: function () {
+    updateBuses: function() {
       // let payloadBus = {
       //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
       // };
       let payloadBus = {
-        projectName: this.$route.params.name,
+        projectName: this.$route.params.name
       };
       this.$store.dispatch("buses/loadBuses", payloadBus);
     },
-    pause: function () {
+    pause: function() {
       clearInterval(this.inter);
       // let payloadLine = {
       //       projectName: this.$store.getters["projects/getProjectNameSeleted"],
       // };
       let payloadLine = {
-        projectName: this.$route.params.name,
+        projectName: this.$route.params.name
       };
       this.$store.dispatch("simulation/pauseSimulation", payloadLine);
     },
-    next: function () {},
-    previous: function () {},
-    togglePlayPause: function () {
-      if(!this.firstPlay && !this.isPlaying){
-        this.firstPlay= true
+    next: function() {},
+    previous: function() {},
+    togglePlayPause: function() {
+      if (!this.firstPlay && !this.isPlaying) {
+        this.firstPlay = true;
         this.play();
-      }
-      else{
+      } else {
         if (!this.isPlaying) {
           // let payloadLine = {
           //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
           // };
           let payloadLine = {
-            projectName: this.$route.params.name,
+            projectName: this.$route.params.name
           };
           this.$store.dispatch("simulation/resumeSimulation", payloadLine);
           this.inter = setInterval(() => {
             this.updateBuses();
             this.$store.dispatch("variables/loadCustomVariables", payloadLine);
-            this.variables = this.$store.getters["variables/getAllCustomVariables"];
-          },500);
-        }else {
+            this.variables = this.$store.getters[
+              "variables/getAllCustomVariables"
+            ];
+          }, 500);
+        } else {
           this.pause();
         }
       }
       this.isPlaying = !this.isPlaying;
     },
 
-    changeReadSpeed: function () {
+    changeReadSpeed: function() {
       // let payload = {
       //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
       // };
       let payload = {
-        projectName: this.$route.params.name,
+        projectName: this.$route.params.name
       };
 
       if (this.slider == 10) {
@@ -225,12 +230,12 @@ export default {
         this.$store.dispatch("clock/setOneToSixtySpeed", payload);
       }
     },
-    changeSimulationSpeed: function () {
+    changeSimulationSpeed: function() {
       // let payload = {
       //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
       // };
       let payload = {
-        projectName: this.$route.params.name,
+        projectName: this.$route.params.name
       };
       if (this.sliderTwo == 10) {
         this.$store.dispatch("simulation/setSLow", payload);
@@ -239,9 +244,9 @@ export default {
       } else if (this.sliderTwo == 30) {
         this.$store.dispatch("simulation/setFast", payload);
       }
-    },
+    }
   },
-  mounted: function () {
+  mounted: function() {
     if (this.$store.getters["lines/getAllLines"].length == 0) {
       // let payload = {
       //   type: "FileCSV",
@@ -249,7 +254,7 @@ export default {
       // };
       let payload = {
         type: "FileCSV",
-        planVersionId: this.$route.query.planversion,
+        planVersionId: this.$route.query.planversion
       };
       // console.log("Payload para las lineas");
       // console.log(payload);
@@ -262,7 +267,7 @@ export default {
       //   projectName: this.$store.getters["projects/getProjectNameSeleted"],
       // };
       let payload = {
-        projectName: this.$route.params.name,
+        projectName: this.$route.params.name
       };
       this.$store.dispatch("variables/loadCustomVariables", payload);
     } else {
@@ -277,9 +282,8 @@ export default {
       }
     });
   },
-  computed: {},
+  computed: {}
 };
 </script>
 
-<style>
-</style>
+<style></style>

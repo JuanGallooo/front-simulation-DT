@@ -1,31 +1,6 @@
 <template>
   <div class="menu-container">
-    <!-- root level itens -->
     <ul class="menu">
-      <!-- <li class="menu__top">
-        <router-link to="/" class="menu__logo">
-          <img src="/icon-32.png" alt="icon">
-        </router-link>
-        <a
-        href="#"
-        @click.prevent="openProjectLink"
-        class="menu__title"
-        >
-          Project Name...
-        </a>
-      </li> -->
-
-      <!-- <li>
-        <a
-        href="#"
-        @click.prevent="updateMenu('home')"
-        :class="highlightSection('home')"
-        >
-            <i class="fa fa-home menu__icon" aria-hidden="true"></i>
-            Home
-        </a>
-      </li> -->
-
       <li>
         <a
           href="#"
@@ -40,48 +15,14 @@
           ></i>
         </a>
       </li>
-
-      <!-- <li>
-        <a
-          href="#"
-          @click.prevent="updateMenu('configuration')"
-          :class="highlightSection('configuration')"
-        >
-          <i class="fas fa-wrench menu__icon" aria-hidden="true"></i>
-          Configuration
-          <i
-            class="fa fa-chevron-right menu__arrow-icon"
-            aria-hidden="false"
-          ></i>
-        </a>
-      </li>
-
-      <li>
-        <a
-          href="#"
-          @click.prevent="updateMenu('analysis')"
-          :class="highlightSection('analysis')"
-        >
-          <i class="far fa-chart-bar menu__icon" aria-hidden="true"></i>
-          Analysis
-          <i
-            class="fa fa-chevron-right menu__arrow-icon"
-            aria-hidden="false"
-          ></i>
-        </a>
-      </li> -->
     </ul>
-
-    <!-- context menu: childs of root level itens -->
     <transition name="slide-fade">
       <div class="context-menu-container" v-show="showContextMenu">
         <ul class="context-menu">
           <li v-for="(item, index) in menuItens" :key="index">
             <h5 v-if="item.type === 'title'" class="context-menu__title">
               <i :class="item.icon" aria-hidden="true"></i>
-
               {{ item.txt }}
-
               <a
                 v-if="index === 0"
                 @click.prevent="closeContextMenu"
@@ -91,11 +32,9 @@
                 <i class="fa fa-window-close" aria-hidden="false"></i>
               </a>
             </h5>
-
             <a
               v-else
-              href="#"
-              @click.prevent="openSection(item)"
+              @click="saveProject(item.txt)"
               :class="subMenuClass(item.txt)"
             >
               {{ item.txt }}
@@ -117,32 +56,52 @@ export default {
   data() {
     return {
       contextSection: "",
-
       menuItens: [],
-
       menuData: menuData,
-
       activeSubMenu: ""
     };
   },
-
+  mounted: function () {
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === "projects/setDownloadArchive") {
+        this.forceFileDownload(this.$store.getters["projects/getDownloadArchive"]);
+      }
+    });
+  },
   methods: {
     openProjectLink() {
       alert(
         "You could open the project frontend in another tab here, so the logged admin could see changes made to the project ;)"
       );
     },
-
+    saveProject(action) {
+      if(action==="Nuevo proyecto"){
+        this.$router.push({
+            path: `/newproject`,
+        });
+      }
+      else if(action==="Guardar proyecto"){
+        const payload=this.$route.params.name;
+        this.$store.dispatch('projects/saveProject',payload)
+      }
+      else{
+        this.$router.push({
+            path: `/`,
+        });
+      }
+    },
     updateMenu(context) {
       this.contextSection = context;
       this.menuItens = this.menuData[context];
-
-      // if (context === 'home') {
-      //   this.$router.push('/');
-      //   window.bus.$emit('menu/closeMobileMenu');
-      // }
     },
-
+    forceFileDownload(data){
+      const url = window.URL.createObjectURL(new Blob([data]))
+      const link = document.createElement('a')
+      link.href = url
+      link.setAttribute('download', `${this.$route.params.name}.dat`)
+      document.body.appendChild(link)
+      link.click()
+    },
     highlightSection(section) {
       return {
         menu__link: true,
@@ -164,18 +123,14 @@ export default {
 
     openSection(item) {
       this.activeSubMenu = item.txt;
-
       this.$router.push(this.getUrl(item));
-      // window.bus.$emit('menu/closeMobileMenu');
     },
 
     getUrl(item) {
       let sectionSlug = kebabCase(item.txt);
-
       return `${item.link}/${sectionSlug}`;
     }
   },
-
   computed: {
     showContextMenu() {
       return this.menuItens.length;

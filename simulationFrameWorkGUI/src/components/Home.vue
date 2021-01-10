@@ -29,7 +29,7 @@
                         />
                       </label>
                       <v-btn color="primary" block v-on:click="handleFileUpload()"
-                        >Cargar Proyecto</v-btn
+                        >Subir proyecto</v-btn
                       >
                     </div>
                     <form
@@ -67,7 +67,7 @@
                       <v-btn block
                         color="primary"
                         @click="showSelect= true;"
-                      >En servidor</v-btn>
+                      >Buscar proyecto</v-btn>
                       <div v-if="showSelect">
                       <v-select v-if="showSelect" v-model="archiveSelected" :items="filesOnServer" label="Seleccionar Archivo"></v-select>
                       </div>
@@ -105,11 +105,12 @@ export default {
     };
   },
   mounted: function () {
-    if(this.$store.getters['projects/getAllFileNames'].length==0){
-      this.$store.dispatch('projects/loadAllFilesNames')
-    }else{
-      this.filesOnServer=this.$store.getters['projects/getAllFileNames']
-    }
+    this.$store.dispatch('projects/projectsNames',null);
+    this.$store.subscribe((mutation, state) => {
+      if (mutation.type === "projects/setProjectsNames") {
+        this.filesOnServer = this.$store.getters["projects/getProjectNames"];
+      }
+    });
   },
   methods: {
     handleFileUpload() {

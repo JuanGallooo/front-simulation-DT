@@ -7,28 +7,24 @@ export default {
 
     {
       type: 'title',
-      txt: 'Project',
+      txt: 'Proyectos',
       icon: 'fas fa-folder context-menu__title-icon',
     },
-
     {
       type: 'link',
-      txt: 'New project',
-      link: '/page',
+      txt: 'Inicio',
+      link: '/',
     },
-
     {
       type: 'link',
-      txt: 'Save project',
-      link: '/page',
+      txt: 'Nuevo proyecto',
+      link: '/',
     },
-
     {
       type: 'link',
-      txt: 'Load Project',
-      link: '/page',
-    },
-
+      txt: 'Guardar proyecto',
+      link: '/',
+    }
   ],
 
   configuration: [

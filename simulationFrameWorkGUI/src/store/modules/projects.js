@@ -10,6 +10,8 @@ const state = {
   projectNameSelected: null,
   typeSelected: null,
   uploadStatus: null,
+  downloadArchive:null,
+  projectNames:null
 };
 
 // Getters
@@ -22,6 +24,8 @@ const getters = {
   getProjectNameSeleted: state => state.projectNameSelected,
   getTypeSelected: state => state.typeSelected,
   getUploadStatus: state => state.uploadStatus,
+  getDownloadArchive: state => state.downloadArchive,
+  getProjectNames: state=> state.projectNames,
 };
 
 // Actions
@@ -67,18 +71,29 @@ const actions = {
     axios.post("project/save/oracle", payload).then(res => {
       commit("setPlanversionSeleted", res.data);
     });
+  },
+  saveProject: function({ commit }, payload) {
+    axios.get(`project/download/${payload}`).then(res => {
+      commit("setDownloadArchive", res.data);
+    });
+  },
+  projectsNames: function({ commit }, payload) {
+    axios.get(`project/names`).then(res => {
+      commit("setProjectsNames", res.data);
+    });
   }
 };
 
 //mutations
 const mutations = {
+  setProjectsNames(state, payload) {
+    state.projectNames = payload;
+  },
   setPlanversionSeleted(state, planversionSeleted) {
     state.planversionSeleted = planversionSeleted;
-    // console.log("Entro projectNameSeleted")
   },
   setProjectNameSeleted(state, projectNameSelected) {
     state.projectNameSelected = projectNameSelected;
-    // console.log("Entro projectNameSeleted")
   },
   setTypeSelected(state, typeSelected) {
     state.typeSelected = typeSelected;
@@ -98,6 +113,9 @@ const mutations = {
   setUploadStatus(state, payload) {
     state.uploadStatus = payload;
   },
+  setDownloadArchive(state, payload){
+    state.downloadArchive = payload;
+  }
 };
 
 export default {
