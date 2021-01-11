@@ -11,7 +11,9 @@ const state = {
   typeSelected: null,
   uploadStatus: null,
   downloadArchive:null,
-  projectNames:null
+  projectNames:null,
+  simulationData: null,
+  createSimulation: null
 };
 
 // Getters
@@ -26,6 +28,8 @@ const getters = {
   getUploadStatus: state => state.uploadStatus,
   getDownloadArchive: state => state.downloadArchive,
   getProjectNames: state=> state.projectNames,
+  getSimulationData: state=> state.simulationData,
+  getCreateSimulationFlag: state=> state.createSimulation,
 };
 
 // Actions
@@ -81,11 +85,28 @@ const actions = {
     axios.get(`project/names`).then(res => {
       commit("setProjectsNames", res.data);
     });
-  }
+  },
+  createSimulation: function({ commit }, payload) {
+    axios.post("project/save/simulation", payload).then(res => {
+      commit("setCreateSimulationFlag", res.data);
+    });
+  },
+  startSimulation: function({ commit }, payload) {
+    axios.put(`controller/simulation/${payload.projectName}/${payload.headway}`).then(res => {
+      commit("setStartSimulation", res.data);
+      console.log(res.data)
+    });
+  },
 };
 
 //mutations
 const mutations = {
+  setCreateSimulationFlag(state, payload) {
+    state.createSimulation = payload;
+  },
+  setStartSimulation(state, payload) {
+    state.simulationData = payload;
+  },
   setProjectsNames(state, payload) {
     state.projectNames = payload;
   },

@@ -140,7 +140,7 @@
                       <v-btn color="primary" router  @click="saveProject"  >Crear Proyecto</v-btn>
                     </div>
                     <div class="my-3">
-                      <v-btn color="primary" router :to="{path:'/newproject'}">Volver</v-btn>
+                      <v-btn color="primary" router :to="{path:'/'}">Volver</v-btn>
                     </div>
                   </v-col>
                 </v-row>

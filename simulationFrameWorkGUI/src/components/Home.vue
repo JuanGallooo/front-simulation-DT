@@ -80,6 +80,14 @@
                         >Crear Proyecto</v-btn
                       >
                     </div>
+                    <div class="my-3">
+                      <v-btn block
+                        color="primary"
+                        router
+                        :to="{ path: '/newsimulation' }"
+                        >Crear simulación</v-btn
+                      >
+                    </div>
                   </v-col>
                 </v-row>
               </v-card-text>
