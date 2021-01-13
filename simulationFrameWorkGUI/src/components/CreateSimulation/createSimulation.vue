@@ -152,8 +152,10 @@
               <v-card-title class="headline">
                 Resultado de la simulación
               </v-card-title>
-              <v-card-text>
-                {{dataSimulation}}
+              <v-card-text >
+                <div v-for="a in dataSimulation" :key="a">
+                  {{a}}
+                </div>
               </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
