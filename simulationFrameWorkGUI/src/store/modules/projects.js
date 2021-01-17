@@ -13,7 +13,8 @@ const state = {
   downloadArchive:null,
   projectNames:null,
   simulationData: null,
-  createSimulation: null
+  createSimulation: null,
+  interval: null
 };
 
 // Getters
@@ -30,6 +31,7 @@ const getters = {
   getProjectNames: state=> state.projectNames,
   getSimulationData: state=> state.simulationData,
   getCreateSimulationFlag: state=> state.createSimulation,
+  getNextInterval: state=> state.interval
 };
 
 // Actions
@@ -93,14 +95,21 @@ const actions = {
   },
   startSimulation: function({ commit }, payload) {
     axios.put(`controller/simulation/${payload.projectName}/${payload.headway}`).then(res => {
-      commit("setStartSimulation", res.data);
-      console.log(res.data)
+      commit("setStartSimulation", true);
+    });
+  },
+  nextInterval: function({ commit }, payload) {
+    axios.put(`controller/operation/${payload.projectName}`).then(res => {
+      commit("setNextInterval", res.data);
     });
   },
 };
 
 //mutations
 const mutations = {
+  setNextInterval(state, payload) {
+    state.interval = payload;
+  },
   setCreateSimulationFlag(state, payload) {
     state.createSimulation = payload;
   },

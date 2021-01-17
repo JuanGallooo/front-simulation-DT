@@ -126,41 +126,19 @@
               <v-card-title class="headline">
                 ¿Cual es el head way diseñado para esta simulación en minutos?
               </v-card-title>
-              <v-card-text
-                >
+              <v-card-text>
                 <v-text-field
                   v-model="headway"
                   label="HeadWay"
                   name="name"
-                  type="number" min="1"
+                  type="number"
+                  min="1"
                 ></v-text-field>
-
-                </v-card-text
-              >
+              </v-card-text>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn color="primary" text @click="startSimulation()">
                   Empezar simulación
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-row>
-        <v-row justify="center">
-          <v-dialog v-model="dialogTwo" persistent max-width="650px">
-            <v-card>
-              <v-card-title class="headline">
-                Resultado de la simulación
-              </v-card-title>
-              <v-card-text >
-                <div v-for="a in dataSimulation" :key="a">
-                  {{a}}
-                </div>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="dialogTwo= false">
-                  Cerrar
                 </v-btn>
               </v-card-actions>
             </v-card>
@@ -186,21 +164,24 @@ export default {
     FinalTimePicker: null,
     headway: null,
     initialMenu: null,
-    finalMenu:null,
-    dataSimulation:"",
+    finalMenu: null,
+    dataSimulation: "",
+    picker: null
   }),
   mounted: function() {
     this.$store.subscribe((mutation, state) => {
-
       if (mutation.type === "projects/setCreateSimulationFlag") {
-        if(this.$store.getters["projects/getCreateSimulationFlag"]){
-          this.dialog= true;
+        if (this.$store.getters["projects/getCreateSimulationFlag"]) {
+          this.dialog = true;
         }
       }
       if (mutation.type === "projects/setStartSimulation") {
-        this.dialog= false;
-        this.dataSimulation= this.$store.getters["projects/getSimulationData"];
-        this.dialogTwo= true;
+        this.dialog = false;
+        // this.dataSimulation= this.$store.getters["projects/getSimulationData"];
+        // this.dialogTwo= true;
+        this.$router.push({
+          path: `/simulation/${this.project.name}`
+        });
       }
     });
   },
@@ -217,9 +198,9 @@ export default {
     startSimulation: function() {
       let payload = {
         headway: this.headway,
-        projectName: this.$store.getters["projects/getProjectNameSeleted"],
+        projectName: this.$store.getters["projects/getProjectNameSeleted"]
       };
-      console.log(payload)
+      console.log(payload);
       this.$store.dispatch("projects/startSimulation", payload);
     }
   }
