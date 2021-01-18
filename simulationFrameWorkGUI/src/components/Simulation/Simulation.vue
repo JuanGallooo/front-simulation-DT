@@ -7,13 +7,11 @@
             <p class="date">{{ date }}</p>
             <p class="time">{{ time }}</p>
           </div>
-          <div>
-
-          </div>
+          <div></div>
           <v-row no-gutters>
             <v-col cols="12" sm="6">
               <div class="flex-row">
-                  Headway Designed
+                Headway Designed
               </div>
               <div class="d-flex justify-center">
                 <div class="buses">
@@ -23,7 +21,7 @@
             </v-col>
             <v-col cols="12" sm="6">
               <div class="flex-row">
-                  Número de buses en total
+                Número de buses en total
               </div>
               <div class="d-flex justify-center">
                 <div class="buses">
@@ -93,12 +91,12 @@
               <div class="d-flex justify-center flex-row">
                 <p class="stop">Vía</p>
               </div>
-              <div class="d-flex justify-center flex-row">
-                <!-- <v-img
-                  max-height="500"
-                  max-width="250"
-                  src="src/assets/Street.gif"
-                ></v-img> -->
+              <div class="street">
+                <v-img
+                  max-height="600"
+                  max-width="300"
+                  src="src/assets/Carretera.png"
+                ></v-img>
               </div>
               <div class="d-flex flex-column">
                 <div class="flex-row">
@@ -167,25 +165,25 @@
         </v-col>
       </v-row>
       <v-row justify="center">
-          <v-dialog v-model="dialogTwo" persistent max-width="650px">
-            <v-card>
-              <v-card-title class="headline">
-                Resultado de la simulación
-              </v-card-title>
-              <v-card-text>
-                <div v-for="a in dataSimulation" :key="a">
-                  {{ a }}
-                </div>
-              </v-card-text>
-              <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn color="primary" text @click="dialogTwo = false">
-                  Cerrar
-                </v-btn>
-              </v-card-actions>
-            </v-card>
-          </v-dialog>
-        </v-row>
+        <v-dialog v-model="dialogTwo" persistent max-width="650px">
+          <v-card>
+            <v-card-title class="headline">
+              Resultado de la simulación
+            </v-card-title>
+            <v-card-text>
+              <div v-for="a in dataSimulation" :key="a">
+                {{ a }}
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="primary" text @click="dialogTwo = false">
+                Cerrar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
     </v-container>
   </div>
 </template>
@@ -234,22 +232,20 @@ export default {
         this.passengersOne = dataM.usersFloraInd;
         this.passengersTwo = dataM.usersSalomia;
         this.busesOne = dataM.busesFloraInd;
-        if(this.busesOne>0){
-          this.stateOne= false;
-        }
-        else{
-          this.stateOne= true;
+        if (this.busesOne > 0) {
+          this.stateOne = false;
+        } else {
+          this.stateOne = true;
         }
         this.busesTwo = dataM.busesRoad;
         this.busesThree = dataM.busesSalomia;
-        if(this.busesThree>0){
-          this.stateTwo= false;
+        if (this.busesThree > 0) {
+          this.stateTwo = false;
+        } else {
+          this.stateTwo = true;
         }
-        else{
-          this.stateTwo= true;
-        }
-        this.headway= dataM.headwayDesigned;
-        this.totalBuses= dataM.numberOfBuses;
+        this.headway = dataM.headwayDesigned;
+        this.totalBuses = dataM.numberOfBuses;
         const week = [
           "Domingo",
           "Lunes",
@@ -260,7 +256,7 @@ export default {
           "Sábado"
         ];
         var cd = new Date(dataM.date);
-        console.log(cd.toLocaleTimeString())
+        console.log(cd.toLocaleTimeString());
         this.time =
           zeroPadding(cd.getHours(), 2) +
           ":" +
@@ -275,21 +271,25 @@ export default {
           zeroPadding(cd.getDate(), 2) +
           " " +
           week[cd.getDay()];
-        this.dataSimulation= [
-          dataM.excessWaitingTime,
-          dataM.headwayCoefficientOfVariation,
-          dataM.maxUsersFloraInd,
-          dataM.maxUsersFloraIndDate,
-          dataM.maxUsersSalomia,
-          dataM.maxUsersSalomiaDate,
-          dataM.maxbusFloraInd,
-          dataM.maxbusSalomia,
-          dataM.meanHOBusFloraInd,
-          dataM.meanHOBusSalomia,
-          dataM.meanHOUsersFloraInd,
-          dataM.meanHOUsersSalomia,
-          dataM.passengerSatisfaction
-        ]
+        if (!dataM.finished) {
+          this.dataSimulation = [
+            `Excess waiting time: ${dataM.excessWaitingTime}`,
+            `HeadWay coefficient of variation: ${dataM.headwayCoefficientOfVariation}`,
+            `Max users in flora industrial: ${dataM.maxUsersFloraInd}`,
+            `Max users in flora industrial date: ${new Date(dataM.maxUsersFloraIndDate)}`,
+            `Max users in salomia: ${dataM.maxUsersSalomia}`,
+            `Max users in salomia date: ${dataM.maxUsersSalomiaDate}`,
+            `Max buses in flora industrial: ${dataM.maxbusFloraInd}`,
+            `Max buses in salomia: ${dataM.maxbusSalomia}`,
+            `Mean HOUBusesFloraInd: ${dataM.meanHOBusFloraInd}`,
+            `Mean HOUBusesSalomia: ${dataM.meanHOBusSalomia}`,
+            `Mean HOUUsersFloraIndustrial: ${dataM.meanHOUsersFloraInd}`,
+            `Mean HOUUsersSalomia: ${dataM.meanHOUsersSalomia}`,
+            `Passengers satisfaction: ${dataM.passengerSatisfaction}`
+          ];
+          this.dialogTwo = true;
+          clearInterval(this.inter);
+        }
       }
     });
   },
@@ -299,7 +299,7 @@ export default {
         projectName: this.$route.params.name
       };
       this.$store.dispatch("projects/nextInterval", payload);
-    },
+    }
   }
 };
 </script>
