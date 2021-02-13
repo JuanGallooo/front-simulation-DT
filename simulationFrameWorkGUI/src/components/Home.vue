@@ -11,9 +11,12 @@
               </v-toolbar>
               <v-card-text>
                 <div class="my-3">
-                  <img  width="400" height="350"
-                    src= "../assets/canvaLogo.png" alt=""
-                  >
+                  <img
+                    width="400"
+                    height="350"
+                    src="../assets/canvaLogo.png"
+                    alt=""
+                  />
                 </div>
 
                 <v-row align="center" justify="center">
@@ -28,7 +31,10 @@
                           v-on:change="handleFileUpload()"
                         />
                       </label>
-                      <v-btn color="primary" block v-on:click="handleFileUpload()"
+                      <v-btn
+                        color="primary"
+                        block
+                        v-on:click="handleFileUpload()"
                         >Subir proyecto</v-btn
                       >
                     </div>
@@ -64,28 +70,35 @@
                       </div>
                     </form>
                     <div class="my-3">
-                      <v-btn block
-                        color="primary"
-                        @click="showSelect= true;"
-                      >Buscar proyecto</v-btn>
+                      <v-btn block color="primary" @click="showSelect = true"
+                        >Buscar proyecto</v-btn
+                      >
                       <div v-if="showSelect">
-                      <v-select v-if="showSelect" v-model="archiveSelected" :items="filesOnServer" label="Seleccionar Archivo"></v-select>
+                        <v-select
+                          v-if="showSelect"
+                          @change="loadProject"
+                          v-model="projectSelected"
+                          :items="filesOnServer"
+                          label="Seleccionar Archivo"
+                        ></v-select>
                       </div>
                     </div>
                     <div class="my-3">
-                      <v-btn block
+                      <v-btn
+                        block
                         color="primary"
                         router
                         :to="{ path: '/newproject' }"
-                        >Crear Proyecto</v-btn
+                        >Crear visualización</v-btn
                       >
                     </div>
                     <div class="my-3">
-                      <v-btn block
+                      <v-btn
+                        block
                         color="primary"
                         router
                         :to="{ path: '/newsimulation' }"
-                        >Crear simulación</v-btn
+                        >Crear simulacion</v-btn
                       >
                     </div>
                   </v-col>
@@ -106,17 +119,34 @@ export default {
       isInitial: false,
       isSaving: false,
       file: "",
-      showSelect:false,
+      showSelect: false,
       showHandle: false,
       filesOnServer: [],
-      archiveSelected:null
+      archiveSelected: null,
+      projectSelected: null
     };
   },
-  mounted: function () {
-    this.$store.dispatch('projects/projectsNames',null);
+  mounted: function() {
+    this.$store.dispatch("projects/projectsNames", null);
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === "projects/setProjectsNames") {
         this.filesOnServer = this.$store.getters["projects/getProjectNames"];
+      }
+      if (mutation.type === "projects/setUploadStatus") {
+        alert(
+          "Proyecto subido con éxito, busca en los proyectos para cargar la visualización"
+        );
+      }
+      if (mutation.type === "projects/setLoadInfo") {
+        const project = this.$store.getters["projects/getLoadInfo"];
+        console.log(project.planVersionId)
+        this.$router.push({
+          path: `/canvas/${project.name}`,
+          query: {
+            planversion: project.planVersionId,
+            type: project.fileType
+          }
+        });
       }
     });
   },
@@ -128,6 +158,13 @@ export default {
         this.file = this.$refs.file.files[0];
         this.$store.dispatch("projects/uploadProject", this.file);
       }
+    },
+    loadProject() {
+      const payload = {
+        projectName: this.projectSelected.substring(0,this.projectSelected.length-4)
+      };
+      console.log(payload)
+      this.$store.dispatch("projects/loadProject", payload);
     }
   }
 };

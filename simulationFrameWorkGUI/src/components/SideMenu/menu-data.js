@@ -20,11 +20,6 @@ export default {
       txt: 'Nuevo proyecto',
       link: '/',
     },
-    {
-      type: 'link',
-      txt: 'Guardar proyecto',
-      link: '/',
-    }
   ],
 
   configuration: [

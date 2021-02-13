@@ -14,7 +14,9 @@ const state = {
   projectNames:null,
   simulationData: null,
   createSimulation: null,
-  interval: null
+  interval: null,
+  stopsSimulation: null,
+  loadInfo: null,
 };
 
 // Getters
@@ -31,7 +33,9 @@ const getters = {
   getProjectNames: state=> state.projectNames,
   getSimulationData: state=> state.simulationData,
   getCreateSimulationFlag: state=> state.createSimulation,
-  getNextInterval: state=> state.interval
+  getNextInterval: state=> state.interval,
+  getStopsSimulation: state=> state.stopsSimulation,
+  getLoadInfo: state=> state.loadInfo
 };
 
 // Actions
@@ -45,7 +49,6 @@ const actions = {
     axios.post("project/upload", formData,headers).then(res => {
       console.log("Upload successfull!");
       commit("setUploadStatus", true);
-      commit("setPlanVersions", res.data);
     });
   },
   loadAllFilesNames: function({ commit }, payload) {
@@ -98,15 +101,31 @@ const actions = {
       commit("setStartSimulation", true);
     });
   },
-  nextInterval: function({ commit }, payload) {
+  nextResults: function({ commit }, payload) {
     axios.put(`controller/operation/${payload.projectName}`).then(res => {
       commit("setNextInterval", res.data);
+    });
+  },
+  nextInterval: function({ commit }, payload) {
+    axios.put(`controller/stops/${payload.projectName}`).then(res => {
+      commit("setStopsSimulation", res.data);
+    });
+  },
+  loadProject: function({ commit }, payload) {
+    axios.get(`project/load/${payload.projectName}`).then(res => {
+      commit("setLoadInfo", res.data);
     });
   },
 };
 
 //mutations
 const mutations = {
+  setLoadInfo(state,payload){
+    state.loadInfo = payload;
+  },
+  setStopsSimulation(state, payload) {
+    state.stopsSimulation = payload;
+  },
   setNextInterval(state, payload) {
     state.interval = payload;
   },

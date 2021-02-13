@@ -180,7 +180,8 @@ export default {
         // this.dataSimulation= this.$store.getters["projects/getSimulationData"];
         // this.dialogTwo= true;
         this.$router.push({
-          path: `/simulation/${this.project.name}`
+          path: `/simulation/${this.project.name}`,
+          query: {headway:this.headway}
         });
       }
     });
@@ -192,6 +193,7 @@ export default {
         initialDate: this.initialDate + " " + this.InitialTimePicker + ":00",
         finalDate: this.finalDate + " " + this.FinalTimePicker + ":00"
       };
+      console.log(payload)
       this.$store.commit("projects/setProjectNameSeleted", this.project.name);
       this.$store.dispatch("projects/createSimulation", payload);
     },

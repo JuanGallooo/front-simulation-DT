@@ -208,14 +208,17 @@ export default {
       passengersOne: null,
       passengersTwo: null,
       busesOne: null,
-      busesTwo: null,
+      busesTwo: 0,
       busesThree: null,
       date: null,
       time: null,
       headway: null,
       totalBuses: null,
       dataSimulation: null,
-      dialogTwo: false
+      dialogTwo: false,
+      busesAnteriores: 0,
+      busesAnterioresDos: 0,
+      stops:[]
     };
   },
   mounted: function() {
@@ -224,28 +227,10 @@ export default {
         projectName: this.$route.params.name
       };
       this.getNextInterval();
-      this.$store.dispatch("projects/nextInterval", payload);
     }, 500);
     this.$store.subscribe((mutation, state) => {
       if (mutation.type === "projects/setNextInterval") {
         const dataM = this.$store.getters["projects/getNextInterval"];
-        this.passengersOne = dataM.usersFloraInd;
-        this.passengersTwo = dataM.usersSalomia;
-        this.busesOne = dataM.busesFloraInd;
-        if (this.busesOne > 0) {
-          this.stateOne = false;
-        } else {
-          this.stateOne = true;
-        }
-        this.busesTwo = dataM.busesRoad;
-        this.busesThree = dataM.busesSalomia;
-        if (this.busesThree > 0) {
-          this.stateTwo = false;
-        } else {
-          this.stateTwo = true;
-        }
-        this.headway = dataM.headwayDesigned;
-        this.totalBuses = dataM.numberOfBuses;
         const week = [
           "Domingo",
           "Lunes",
@@ -255,8 +240,7 @@ export default {
           "Viernes",
           "Sábado"
         ];
-        var cd = new Date(dataM.date);
-        console.log(cd.toLocaleTimeString());
+        var cd = new Date(dataM.currentDateTwo);
         this.time =
           zeroPadding(cd.getHours(), 2) +
           ":" +
@@ -271,25 +255,55 @@ export default {
           zeroPadding(cd.getDate(), 2) +
           " " +
           week[cd.getDay()];
-        if (!dataM.finished) {
+        if (!dataM.execution) {
           this.dataSimulation = [
             `Excess waiting time: ${dataM.excessWaitingTime}`,
             `HeadWay coefficient of variation: ${dataM.headwayCoefficientOfVariation}`,
-            `Max users in flora industrial: ${dataM.maxUsersFloraInd}`,
-            `Max users in flora industrial date: ${new Date(dataM.maxUsersFloraIndDate)}`,
-            `Max users in salomia: ${dataM.maxUsersSalomia}`,
-            `Max users in salomia date: ${dataM.maxUsersSalomiaDate}`,
-            `Max buses in flora industrial: ${dataM.maxbusFloraInd}`,
-            `Max buses in salomia: ${dataM.maxbusSalomia}`,
-            `Mean HOUBusesFloraInd: ${dataM.meanHOBusFloraInd}`,
-            `Mean HOUBusesSalomia: ${dataM.meanHOBusSalomia}`,
-            `Mean HOUUsersFloraIndustrial: ${dataM.meanHOUsersFloraInd}`,
-            `Mean HOUUsersSalomia: ${dataM.meanHOUsersSalomia}`,
+            `Max users in flora industrial: ${this.stops[0].maxUsers}`,
+            `Max users in flora industrial date: ${new Date(this.stops[0].maxUsersDate)}`,
+            `Max users in salomia: ${this.stops[1].maxUsers}`,
+            `Max users in salomia date: ${new Date(this.stops[1].maxUsersDate)}`,
+            `Max buses in flora industrial: ${this.stops[0].maxBuses}`,
+            `Max buses in salomia: ${this.stops[1].maxBuses}`,
+            `Mean HOUBusesFloraInd: ${dataM.meansHOBus[this.stops[0].stopId]}`,
+            `Mean HOUBusesSalomia: ${dataM.meansHOBus[this.stops[1].stopId]}`,
+            `Mean HOUUsersFloraIndustrial: ${dataM.meansHOPassengers[this.stops[0].stopId]}`,
+            `Mean HOUUsersSalomia: ${dataM.meansHOPassengers[this.stops[1].stopId]}`,
             `Passengers satisfaction: ${dataM.passengerSatisfaction}`
           ];
           this.dialogTwo = true;
           clearInterval(this.inter);
         }
+      }
+      if (mutation.type === "projects/setStopsSimulation") {
+        const dataM = this.$store.getters["projects/getStopsSimulation"];
+        this.stops= dataM;
+        this.passengersOne = this.stops[0].passengerQueue;
+        this.passengersTwo = this.stops[1].passengerQueue;
+        this.busesOne = this.stops[0].busQueue.length;
+        if (this.busesOne > 0) {
+          this.stateOne = false;
+        } else {
+          this.stateOne = true;
+        }
+        this.busesThree = this.stops[1].busQueue.length;
+        if(this.busesOne<this.busesAnteriores){
+          this.busesTwo+=1;
+        }
+        if(this.busesThree>this.busesAnterioresDos && this.busesTwo>0){
+          this.busesTwo-=1;
+        }
+        this.busesAnteriores=this.busesOne;
+        this.busesAnterioresDos=this.busesThree;
+
+        if (this.busesThree > 0) {
+          this.stateTwo = false;
+        } else {
+          this.stateTwo = true;
+        }
+        this.headway = this.$route.query.headway;
+        this.totalBuses = this.busesOne+ this.busesTwo+ this.busesThree;
+
       }
     });
   },
@@ -299,6 +313,7 @@ export default {
         projectName: this.$route.params.name
       };
       this.$store.dispatch("projects/nextInterval", payload);
+      this.$store.dispatch("projects/nextResults", payload);
     }
   }
 };
